@@ -1,0 +1,145 @@
+<form class="search-form" [formGroup]="form" (ngSubmit)="submitSearch()">
+  <fieldset class="search-form__trip-toggle">
+    <legend>{{ i18n.translate(textKeys.search.tripType) }}</legend>
+    <label>
+      <input type="radio" formControlName="tripType" value="round-trip" />
+      <span>{{ i18n.translate(textKeys.search.roundTrip) }}</span>
+    </label>
+    <label>
+      <input type="radio" formControlName="tripType" value="one-way" />
+      <span>{{ i18n.translate(textKeys.search.oneWay) }}</span>
+    </label>
+  </fieldset>
+
+  <div class="search-form__bar">
+    <div class="search-form__route-fields">
+      <label class="search-form__field search-form__field--route">
+        <span>{{ i18n.translate(textKeys.search.origin) }}</span>
+        <select formControlName="origin" aria-describedby="route-error">
+          <option value="">{{ i18n.translate(textKeys.search.selectOrigin) }}</option>
+          @for (airport of airports; track airport.code) {
+            <option [value]="airport.code">{{ airport.city }} ({{ airport.code }})</option>
+          }
+        </select>
+      </label>
+
+      <button
+        class="search-form__swap-button"
+        type="button"
+        (click)="swapAirports()"
+        [attr.aria-label]="i18n.translate(textKeys.search.swapAirports)"
+      >
+        &#8644;
+      </button>
+
+      <label class="search-form__field search-form__field--route">
+        <span>{{ i18n.translate(textKeys.search.destination) }}</span>
+        <select formControlName="destination" aria-describedby="route-error">
+          <option value="">{{ i18n.translate(textKeys.search.selectDestination) }}</option>
+          @for (airport of destinationAirports(); track airport.code) {
+            <option [value]="airport.code">{{ airport.city }} ({{ airport.code }})</option>
+          }
+        </select>
+      </label>
+    </div>
+
+    <div class="search-form__date-fields">
+      <label class="search-form__field">
+        <span>{{ i18n.translate(textKeys.search.departureDate) }}</span>
+        <input
+          type="date"
+          formControlName="departureDate"
+          [min]="today"
+          aria-describedby="date-error"
+        />
+      </label>
+
+      @if (form.controls.tripType.value === 'round-trip') {
+        <label class="search-form__field">
+          <span>{{ i18n.translate(textKeys.search.returnDate) }}</span>
+          <input
+            type="date"
+            formControlName="returnDate"
+            [min]="form.controls.departureDate.value || today"
+            aria-describedby="date-error"
+          />
+        </label>
+      }
+    </div>
+
+    <details class="search-form__passenger-menu">
+      <summary class="search-form__passenger-summary">
+        <span>{{ i18n.translate(textKeys.search.passengers) }}</span>
+        <strong class="search-form__passenger-count">{{ passengerTotal() }}</strong>
+      </summary>
+
+      <fieldset class="search-form__passenger-options" formGroupName="passengers">
+        <legend>{{ i18n.translate(textKeys.search.passengers) }}</legend>
+
+        <label class="search-form__passenger-option">
+          <span>{{ i18n.translate(textKeys.search.adults) }}</span>
+          <input type="number" formControlName="adults" min="1" max="9" />
+        </label>
+
+        <label class="search-form__passenger-option">
+          <span>{{ i18n.translate(textKeys.search.children) }}</span>
+          <input type="number" formControlName="children" min="0" max="8" />
+        </label>
+
+        <label class="search-form__passenger-option">
+          <span>{{ i18n.translate(textKeys.search.infants) }}</span>
+          <input
+            type="number"
+            formControlName="infants"
+            min="0"
+            max="8"
+            aria-describedby="passenger-error"
+          />
+        </label>
+      </fieldset>
+    </details>
+
+    <button class="search-form__submit-button" type="submit" [disabled]="form.invalid">
+      {{ i18n.translate(textKeys.search.submit) }}
+    </button>
+  </div>
+
+  <div class="search-form__error-list" aria-live="polite">
+    @if (
+      form.hasError('sameAirports') &&
+      (form.controls.origin.touched || form.controls.destination.touched)
+    ) {
+      <p id="route-error" class="search-form__field-error">
+        {{ i18n.translate(textKeys.search.sameAirportsError) }}
+      </p>
+    }
+
+    @if (form.hasError('pastDepartureDate')) {
+      <p id="date-error" class="search-form__field-error">
+        {{ i18n.translate(textKeys.search.pastDepartureDateError) }}
+      </p>
+    } @else if (form.hasError('missingReturnDate')) {
+      <p id="date-error" class="search-form__field-error">
+        {{ i18n.translate(textKeys.search.missingReturnDateError) }}
+      </p>
+    } @else if (form.hasError('returnBeforeDeparture')) {
+      <p id="date-error" class="search-form__field-error">
+        {{ i18n.translate(textKeys.search.returnBeforeDepartureError) }}
+      </p>
+    }
+
+    @if (form.hasError('missingAdult')) {
+      <p id="passenger-error" class="search-form__field-error">
+        {{ i18n.translate(textKeys.search.missingAdultError) }}
+      </p>
+    } @else if (form.hasError('tooManyInfants')) {
+      <p id="passenger-error" class="search-form__field-error">
+        {{ i18n.translate(textKeys.search.tooManyInfantsError) }}
+      </p>
+    } @else if (form.hasError('tooManyPassengers')) {
+      <p id="passenger-error" class="search-form__field-error">
+        {{ i18n.translate(textKeys.search.tooManyPassengersError) }}
+      </p>
+    }
+  </div>
+</form>

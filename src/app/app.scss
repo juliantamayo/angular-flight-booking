@@ -1,0 +1,121 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.app-shell__skip-link {
+  background: var(--color-ink);
+  color: var(--color-surface);
+  inset-block-start: var(--space-3);
+  inset-inline-start: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  position: fixed;
+  transform: translateY(-150%);
+  z-index: 10;
+}
+
+.app-shell__skip-link:focus {
+  transform: translateY(0);
+}
+
+.app-shell__header,
+.app-shell__footer {
+  align-items: center;
+  display: flex;
+  gap: var(--space-4);
+  justify-content: space-between;
+  margin-inline: auto;
+  max-width: 72rem;
+  padding: var(--space-4) var(--space-5);
+}
+
+.app-shell__header-actions {
+  align-items: center;
+  color: var(--color-muted);
+  display: flex;
+  font-size: 0.875rem;
+  gap: var(--space-4);
+}
+
+.app-shell__header-actions a {
+  color: var(--color-ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.app-shell__language-switcher {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  overflow: hidden;
+}
+
+.app-shell__language-button {
+  background: var(--color-surface);
+  border: 0;
+  color: var(--color-muted);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+  min-height: 2rem;
+  padding-inline: var(--space-2);
+}
+
+.app-shell__language-button--active {
+  background: var(--color-primary);
+  color: var(--color-surface);
+}
+
+.app-shell__header {
+  border-block-end: 1px solid var(--color-border);
+}
+
+.app-shell__footer {
+  border-block-start: 1px solid var(--color-border);
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+.app-shell__brand {
+  align-items: center;
+  color: var(--color-ink);
+  display: inline-flex;
+  font-weight: 800;
+  gap: var(--space-2);
+  text-decoration: none;
+}
+
+.app-shell__brand-mark {
+  align-items: center;
+  background: var(--color-primary);
+  border-radius: var(--radius-sm);
+  color: var(--color-surface);
+  display: inline-flex;
+  height: 2.25rem;
+  justify-content: center;
+  width: 2.25rem;
+}
+
+.app-shell__header p,
+.app-shell__footer p {
+  margin: 0;
+}
+
+.app-shell__main {
+  margin-inline: auto;
+  max-width: 72rem;
+  min-height: calc(100dvh - 9.5rem);
+  padding: var(--space-8) var(--space-5);
+}
+
+@media (max-width: 42rem) {
+  .app-shell__header,
+  .app-shell__footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .app-shell__header-actions {
+    flex-wrap: wrap;
+  }
+}

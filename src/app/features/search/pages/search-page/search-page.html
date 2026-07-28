@@ -1,0 +1,15 @@
+<section class="search-page" aria-labelledby="search-title">
+  <div class="search-page__intro">
+    <p class="search-page__eyebrow">{{ i18n.translate(textKeys.search.eyebrow) }}</p>
+    <h1 id="search-title">{{ i18n.translate(textKeys.search.title) }}</h1>
+    <p>{{ i18n.translate(textKeys.search.subtitle) }}</p>
+  </div>
+
+  @if (hasSavedSearch()) {
+    <p class="search-page__status" aria-live="polite">
+      {{ i18n.translate(textKeys.search.savedSearch) }}
+    </p>
+  }
+
+  <search-form [initialSearch]="savedSearch()" (searchSubmitted)="searchFlights($event)" />
+</section>
