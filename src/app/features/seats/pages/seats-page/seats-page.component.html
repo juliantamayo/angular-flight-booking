@@ -1,0 +1,105 @@
+<section class="seats-page" aria-labelledby="seats-page-title">
+  <div class="seats-page__heading">
+    <p class="seats-page__eyebrow">Paso 3 de 5</p>
+    <h1 id="seats-page-title">Selecciona tus asientos</h1>
+    <p>Elige un asiento por pasajero. Puedes continuar y completar esta seleccion despues.</p>
+  </div>
+
+  <section class="seats-page__passengers" aria-labelledby="seats-passengers-title">
+    <h2 id="seats-passengers-title">Pasajeros</h2>
+
+    <div class="seats-page__passenger-list" role="list">
+      @for (passengerName of passengerNames(); track $index; let index = $index) {
+        <button
+          class="seats-page__passenger"
+          type="button"
+          role="listitem"
+          [class.seats-page__passenger--active]="activePassengerIndex() === index"
+          [attr.aria-pressed]="activePassengerIndex() === index"
+          (click)="selectPassenger(index)"
+        >
+          <span>{{ passengerName }}</span>
+          <strong>
+            @if (selectedSeatForPassenger(index); as selectedSeat) {
+              {{ selectedSeat.label }}
+            } @else {
+              Sin asiento
+            }
+          </strong>
+        </button>
+      }
+    </div>
+  </section>
+
+  <div class="seats-page__layout">
+    <section class="seats-page__map-section" aria-labelledby="seats-map-title">
+      <h2 id="seats-map-title">Mapa Airbus A320</h2>
+
+      <div class="seats-page__plane" aria-label="Mapa de asientos">
+        <div class="seats-page__aircraft-name">Airbus A320</div>
+
+        <div class="seats-page__columns" aria-hidden="true">
+          @for (column of columns; track column) {
+            <span [class.seats-page__column--aisle-start]="column === 'D'">{{ column }}</span>
+          }
+        </div>
+
+        <div class="seats-page__rows">
+          @for (row of rows; track row) {
+            @if (row === 11 || row === 12) {
+              <div class="seats-page__exit-row">
+                <span></span>
+                <strong>Salida de emergencia</strong>
+                <span></span>
+              </div>
+            }
+
+            <div class="seats-page__row">
+              @for (column of columns; track column) {
+                @let currentSeat = seat(row, column);
+                @if (column === 'D') {
+                  <span class="seats-page__row-number">{{ row }}</span>
+                }
+                <button
+                  class="seats-page__seat"
+                  type="button"
+                  [class.seats-page__seat--preferred]="currentSeat.type === 'preferred'"
+                  [class.seats-page__seat--extra-legroom]="currentSeat.type === 'extra-legroom'"
+                  [class.seats-page__seat--selected]="isSelectedByCurrentPassenger(currentSeat)"
+                  [class.seats-page__seat--assigned]="isSelectedByAnotherPassenger(currentSeat)"
+                  [class.seats-page__seat--occupied]="currentSeat.isOccupied"
+                  [disabled]="currentSeat.isOccupied || isSelectedByAnotherPassenger(currentSeat)"
+                  [attr.aria-label]="'Asiento ' + currentSeat.label + ', ' + seatState(currentSeat)"
+                  [attr.aria-pressed]="isSelectedByCurrentPassenger(currentSeat)"
+                  (click)="selectSeat(currentSeat)"
+                >
+                  <span class="seats-page__seat-code">{{ currentSeat.type === 'standard' ? '' : 'XL' }}</span>
+                  <span class="seats-page__seat-icon" aria-hidden="true"></span>
+                </button>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <aside class="seats-page__summary" aria-labelledby="seats-summary-title" aria-live="polite">
+      <h2 id="seats-summary-title">Resumen de asientos</h2>
+
+      <ul class="seats-page__summary-list">
+        @for (passengerName of passengerNames(); track $index; let index = $index) {
+          <li>
+            <span>{{ passengerName }}</span>
+            @if (selectedSeatForPassenger(index); as selectedSeat) {
+              <strong>{{ selectedSeat.label }} - {{ formatCurrency(selectedSeat.price) }}</strong>
+            } @else {
+              <strong>Sin asiento</strong>
+            }
+          </li>
+        }
+      </ul>
+    </aside>
+  </div>
+
+  <ds-bottom-summary [config]="bottomSummaryConfig()" (actionClicked)="continueToServices()" />
+</section>

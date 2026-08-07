@@ -1,0 +1,150 @@
+.services-page {
+  display: grid;
+  gap: var(--space-5);
+  padding-block-end: 6rem;
+}
+
+.services-page__heading {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.services-page__heading h1,
+.services-page__heading p,
+.services-page__section-heading h2,
+.services-page__section-heading p,
+.services-page__summary h2,
+.services-page__summary p {
+  margin: 0;
+}
+
+.services-page__eyebrow {
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.services-page__heading h1 {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+}
+
+.services-page__heading p,
+.services-page__section-heading p,
+.services-page__summary p {
+  color: var(--color-muted);
+}
+
+.services-page__section,
+.services-page__summary {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-5);
+}
+
+.services-page__section-heading {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.services-page__grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.services-page__service-card {
+  align-items: start;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: auto 1fr;
+  padding: var(--space-4);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.services-page__service-card:focus-within {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.services-page__service-card--selected {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.services-page__service-card:hover {
+  transform: translateY(-1px);
+}
+
+.services-page__service-check {
+  padding-block-start: var(--space-1);
+}
+
+.services-page__service-check input {
+  block-size: 1.25rem;
+  inline-size: 1.25rem;
+}
+
+.services-page__service-content {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.services-page__service-name {
+  color: var(--color-ink);
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+}
+
+.services-page__service-description {
+  color: var(--color-muted);
+}
+
+.services-page__service-price {
+  color: var(--color-primary);
+  font-weight: 800;
+}
+
+.services-page__selected-list {
+  display: grid;
+  gap: var(--space-3);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.services-page__selected-list li {
+  align-items: center;
+  border-block-end: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  padding-block-end: var(--space-3);
+}
+
+.services-page__selected-list li:last-child {
+  border-block-end: 0;
+  padding-block-end: 0;
+}
+
+@media (max-width: 48rem) {
+  .services-page__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .services-page__selected-list li {
+    align-items: start;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+}

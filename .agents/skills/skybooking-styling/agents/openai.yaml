@@ -1,0 +1,7 @@
+interface:
+  display_name: "SkyBooking Styling"
+  short_description: "Style Angular UI with tokens and BEM."
+  default_prompt: "Use $skybooking-styling to update this Angular component's styles and classes."
+
+policy:
+  allow_implicit_invocation: true

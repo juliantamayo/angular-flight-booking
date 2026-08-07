@@ -1,0 +1,25 @@
+@mixin button-tokens {
+  --button-radius: var(--radius-pill);
+  --button-focus-outline: 3px solid var(--color-focus);
+  --button-focus-offset: 2px;
+
+  --button-primary-background: var(--color-ink);
+  --button-primary-border: var(--color-ink);
+  --button-primary-color: var(--color-surface);
+  --button-primary-hover-background: var(--color-brand-700);
+  --button-primary-hover-border: var(--color-brand-700);
+
+  --button-secondary-background: var(--color-surface);
+  --button-secondary-border: var(--color-border-default);
+  --button-secondary-color: var(--color-primary);
+  --button-secondary-hover-background: var(--color-brand-50);
+  --button-secondary-hover-border: var(--color-primary);
+
+  --button-text-background: transparent;
+  --button-text-color: var(--color-primary);
+  --button-text-hover-color: var(--color-brand-700);
+
+  --button-disabled-background: var(--color-disabled);
+  --button-disabled-border: var(--color-disabled);
+  --button-disabled-color: var(--color-muted);
+}

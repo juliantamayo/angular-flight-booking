@@ -1,0 +1,12 @@
+<footer
+  class="ds-bottom-summary"
+  [style.--bottom-summary-footer-offset.px]="footerOffset()"
+  aria-live="polite"
+>
+  <div class="ds-bottom-summary__total">
+    <span>{{ config.totalLabel }}</span>
+    <strong>{{ config.total }}</strong>
+  </div>
+
+  <ds-button [config]="actionConfig" (buttonClicked)="emitAction()" />
+</footer>

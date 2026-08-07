@@ -1,0 +1,56 @@
+.passenger-page {
+  display: grid;
+  gap: var(--space-5);
+  padding-block-end: 6rem;
+}
+
+.passenger-page__heading {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.passenger-page__eyebrow {
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.passenger-page__heading h1 {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  margin: 0;
+}
+
+.passenger-page__form,
+.passenger-page__section,
+.passenger-page__passenger-list {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.passenger-page__section {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-5);
+}
+
+.passenger-page__section-heading {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.passenger-page__section-heading h2,
+.passenger-page__section-heading p {
+  margin: 0;
+}
+
+.passenger-page__section-heading p {
+  color: var(--color-muted);
+}
+
+.passenger-page__emergency-contact {
+  scroll-margin-block-start: var(--space-5);
+}

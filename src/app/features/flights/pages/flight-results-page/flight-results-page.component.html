@@ -1,0 +1,120 @@
+<section
+  class="results-page"
+  [attr.aria-labelledby]="outboundSelection() ? 'journey-summary-title' : 'results-title'"
+>
+  @if (search(); as currentSearch) {
+    <header class="results-page__modify-header">
+      <div class="results-page__modify-bar">
+        <dl class="results-page__modify-summary" aria-label="Busqueda actual">
+          <div class="results-page__modify-summary-item">
+            <dt>Ruta</dt>
+            <dd>
+              {{ currentSearch.origin }}
+              <span aria-hidden="true">&harr;</span>
+              {{ currentSearch.destination }}
+            </dd>
+          </div>
+          <div class="results-page__modify-summary-item">
+            <dt>Fecha</dt>
+            <dd>{{ dateSummary(currentSearch) }}</dd>
+          </div>
+          <div class="results-page__modify-summary-item">
+            <dt>Pasajeros</dt>
+            <dd>{{ passengerSummary() }}</dd>
+          </div>
+        </dl>
+
+        <button
+          class="results-page__modify-button"
+          type="button"
+          [attr.aria-expanded]="isModifyOpen()"
+          aria-controls="modify-search-panel"
+          (click)="toggleModify()"
+        >
+          <span aria-hidden="true">&#9998;</span>
+          Modificar
+        </button>
+      </div>
+
+      @if (isModifyOpen()) {
+        <div class="results-page__modify-panel" id="modify-search-panel">
+          <search-form
+            [initialSearch]="currentSearch"
+            (searchSubmitted)="modifySearch($event)"
+          ></search-form>
+        </div>
+      }
+    </header>
+
+    @if (outboundSelection(); as selectedOutbound) {
+      <section class="results-page__journey-summary" aria-labelledby="journey-summary-title">
+        <h1 id="journey-summary-title">Resumen de viaje</h1>
+
+        <selected-flight-summary
+          [segmentTitle]="segmentTitle(currentSearch, 'outbound')"
+          [date]="selectedDate(currentSearch, 'outbound')"
+          [flight]="selectedOutbound.flight"
+          [fare]="selectedOutbound.fare"
+          [origin]="currentSearch.origin"
+          [destination]="currentSearch.destination"
+          (editRequested)="editSelection('outbound')"
+        ></selected-flight-summary>
+
+        @if (returnSelection(); as selectedReturn) {
+          <selected-flight-summary
+            [segmentTitle]="segmentTitle(currentSearch, 'return')"
+            [date]="selectedDate(currentSearch, 'return')"
+            [flight]="selectedReturn.flight"
+            [fare]="selectedReturn.fare"
+            [origin]="currentSearch.destination"
+            [destination]="currentSearch.origin"
+            (editRequested)="editSelection('return')"
+          ></selected-flight-summary>
+        }
+      </section>
+    }
+
+    @if (
+      (activeDirection() === 'outbound' && !outboundSelection()) ||
+      (activeDirection() === 'return' && !returnSelection())
+    ) {
+      <div class="results-page__route-heading">
+        <div class="results-page__route-title-group">
+          <span class="results-page__route-icon" aria-hidden="true">&#9992;</span>
+          @if (!outboundSelection()) {
+            <h1 id="results-title" class="results-page__route-title">
+              {{ directionTitle(currentSearch) }}
+            </h1>
+          } @else {
+            <h2 class="results-page__route-title">
+              {{ directionTitle(currentSearch) }}
+            </h2>
+          }
+          <span class="results-page__route-date">
+            {{ selectedDate(currentSearch, activeDirection()) }}
+          </span>
+        </div>
+      </div>
+
+      <div class="results-page__flight-list" aria-label="Vuelos disponibles">
+        @for (flight of flights; track flight.id) {
+          <flight-card
+            [flight]="flight"
+            [origin]="selectedOrigin(currentSearch, activeDirection())"
+            [destination]="selectedDestination(currentSearch, activeDirection())"
+            [expanded]="expandedFlightId() === flight.id"
+            (toggled)="toggleFlight($event)"
+            (fareSelected)="selectFare(flight, $event)"
+          ></flight-card>
+        }
+      </div>
+    }
+
+    @if (canContinue()) {
+      <ds-bottom-summary
+        [config]="bottomSummaryConfig()"
+        (actionClicked)="continueBooking()"
+      />
+    }
+  }
+</section>

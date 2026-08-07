@@ -1,0 +1,53 @@
+<section class="services-page" aria-labelledby="services-page-title">
+  <div class="services-page__heading">
+    <p class="services-page__eyebrow">Paso 4 de 5</p>
+    <h1 id="services-page-title">Servicios adicionales</h1>
+    <p>Personaliza tu viaje con extras opcionales antes de revisar la compra.</p>
+  </div>
+
+  <section class="services-page__section" aria-labelledby="services-options-title">
+    <div class="services-page__section-heading">
+      <h2 id="services-options-title">Elige tus servicios</h2>
+      <p>Puedes continuar sin agregar servicios.</p>
+    </div>
+
+    <div class="services-page__grid">
+      @for (service of services; track service.code) {
+        <label class="services-page__service-card" [class.services-page__service-card--selected]="isSelected(service.code)">
+          <span class="services-page__service-check">
+            <input
+              type="checkbox"
+              [checked]="isSelected(service.code)"
+              (change)="toggleService(service.code, $any($event.target).checked)"
+            />
+          </span>
+
+          <span class="services-page__service-content">
+            <span class="services-page__service-name">{{ service.name }}</span>
+            <span class="services-page__service-description">{{ service.description }}</span>
+            <span class="services-page__service-price">{{ formatCurrency(service.price) }}</span>
+          </span>
+        </label>
+      }
+    </div>
+  </section>
+
+  <section class="services-page__summary" aria-labelledby="services-summary-title" aria-live="polite">
+    <h2 id="services-summary-title">Resumen de servicios</h2>
+
+    @if (selectedServices().length) {
+      <ul class="services-page__selected-list">
+        @for (service of selectedServices(); track service.code) {
+          <li>
+            <span>{{ service.name }}</span>
+            <strong>{{ formatCurrency(service.price) }}</strong>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p>No has agregado servicios adicionales.</p>
+    }
+  </section>
+
+  <ds-bottom-summary [config]="bottomSummaryConfig()" (actionClicked)="continueToReview()" />
+</section>

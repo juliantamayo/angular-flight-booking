@@ -1,0 +1,7 @@
+@mixin box-shadow-tokens {
+  --shadow-sm:
+    0 1px 2px rgb(16 33 63 / 5%),
+    0 2px 6px rgb(16 33 63 / 4%);
+  --shadow-md: 0 4px 12px rgb(16 33 63 / 8%);
+  --shadow-lg: 0 12px 28px rgb(16 33 63 / 12%);
+}

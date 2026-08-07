@@ -1,0 +1,32 @@
+<section class="passenger-page" aria-labelledby="passenger-page-title">
+  <div class="passenger-page__heading">
+    <p class="passenger-page__eyebrow">Paso 2 de 5</p>
+    <h1 id="passenger-page-title">Datos de pasajeros</h1>
+  </div>
+
+  <form class="passenger-page__form" [formGroup]="form" (ngSubmit)="submitPassengers()">
+    <section class="passenger-page__section" aria-labelledby="passenger-list-title">
+      <div class="passenger-page__section-heading">
+        <h2 id="passenger-list-title">Viajeros</h2>
+        <p>Los nombres deben coincidir con el documento de viaje.</p>
+      </div>
+
+      <div class="passenger-page__passenger-list" formArrayName="passengers">
+        @for (passenger of passengers.controls; track $index; let index = $index) {
+          <app-personal-information
+            [expanded]="isPassengerExpanded(index)"
+            [passengerGroup]="passenger"
+            [title]="passengerTitle(index)"
+            (expandedChange)="setPassengerExpanded(index, $event)"
+            (nextClicked)="continueFromPassenger(index)"
+          />
+        }
+      </div>
+    </section>
+    <div #emergencyContactSection class="passenger-page__emergency-contact">
+      <app-emergency-contact [contactGroup]="form.controls.contact" />
+    </div>
+  </form>
+
+  <ds-bottom-summary [config]="bottomSummaryConfig()" (actionClicked)="submitPassengers()" />
+</section>

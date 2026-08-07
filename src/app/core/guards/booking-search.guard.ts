@@ -7,5 +7,5 @@ export const bookingSearchGuard: CanActivateFn = () => {
   const store = inject(BookingStore);
   const router = inject(Router);
 
-  return store.hasSearch() ? true : router.createUrlTree(['/']);
+  return store.hasSearch() ? true : router.createUrlTree(['/search']);
 };

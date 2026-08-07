@@ -1,0 +1,7 @@
+interface:
+  display_name: "SkyBooking A11y"
+  short_description: "Review Angular UI accessibility."
+  default_prompt: "Use $skybooking-a11y to review and improve this Angular template."
+
+policy:
+  allow_implicit_invocation: true

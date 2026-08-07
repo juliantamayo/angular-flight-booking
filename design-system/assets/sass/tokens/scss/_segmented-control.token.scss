@@ -1,0 +1,10 @@
+@mixin segmented-control-tokens {
+  --segmented-control-background: var(--color-ink);
+  --segmented-control-border: var(--color-ink);
+  --segmented-control-radius: var(--radius-pill);
+  --segmented-control-padding: var(--space-1);
+  --segmented-control-color: var(--color-surface);
+  --segmented-control-active-background: var(--color-surface);
+  --segmented-control-active-color: var(--color-ink);
+  --segmented-control-disabled-color: var(--color-text-tertiary);
+}

@@ -1,0 +1,5 @@
+@mixin semantic-aliases {
+  --benefit-included: var(--color-success-700);
+  --benefit-not-included: var(--color-text-tertiary);
+  --benefit-conditional: var(--color-highlight-700);
+}

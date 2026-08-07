@@ -1,0 +1,11 @@
+@mixin expansion-panel-tokens {
+  --expansion-panel-background: var(--color-surface);
+  --expansion-panel-border: var(--color-border);
+  --expansion-panel-border-hover: var(--color-border-strong);
+  --expansion-panel-color: var(--color-ink);
+  --expansion-panel-radius: var(--radius-lg);
+  --expansion-panel-shadow: var(--shadow-sm);
+  --expansion-panel-shadow-expanded: var(--shadow-md);
+  --expansion-panel-focus-outline: 3px solid var(--color-focus);
+  --expansion-panel-focus-offset: 2px;
+}

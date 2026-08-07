@@ -1,0 +1,57 @@
+:host {
+  display: inline-flex;
+}
+
+.ds-segmented-control {
+  background: var(--segmented-control-background);
+  border: 1px solid var(--segmented-control-border);
+  border-radius: var(--segmented-control-radius);
+  display: inline-flex;
+  padding: var(--segmented-control-padding);
+}
+
+.ds-segmented-control__option {
+  background: transparent;
+  border: 0;
+  border-radius: var(--segmented-control-radius);
+  color: var(--segmented-control-color);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+  min-height: var(--segmented-control-option-height);
+  padding-inline: var(--segmented-control-option-padding-inline);
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    opacity 160ms ease;
+}
+
+.ds-segmented-control__option:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.ds-segmented-control__option--active {
+  background: var(--segmented-control-active-background);
+  color: var(--segmented-control-active-color);
+}
+
+.ds-segmented-control__option:disabled {
+  color: var(--segmented-control-disabled-color);
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.ds-segmented-control--sm {
+  --segmented-control-option-height: 2rem;
+  --segmented-control-option-padding-inline: var(--space-4);
+
+  font-size: var(--font-size-sm);
+}
+
+.ds-segmented-control--md {
+  --segmented-control-option-height: 2.5rem;
+  --segmented-control-option-padding-inline: var(--space-5);
+
+  font-size: var(--font-size-md);
+}

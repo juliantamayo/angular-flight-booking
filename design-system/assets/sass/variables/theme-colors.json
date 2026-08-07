@@ -1,0 +1,59 @@
+{
+  "brand": {
+    "900": "#10213f",
+    "700": "#1b4488",
+    "600": "#2354a3",
+    "100": "#eaf1fc",
+    "50": "#f3f7fd"
+  },
+  "semantic": {
+    "success": {
+      "700": "#197044",
+      "100": "#e7f6ed"
+    },
+    "highlight": {
+      "700": "#9a6200",
+      "100": "#fff3d6"
+    },
+    "warning": {
+      "700": "#b54708",
+      "100": "#fff0e6"
+    },
+    "error": {
+      "700": "#b4232b",
+      "100": "#fdebed"
+    },
+    "info": {
+      "700": "#176b87",
+      "100": "#e7f5f8"
+    }
+  },
+  "fares": {
+    "basic": {
+      "700": "#52627a",
+      "100": "#eef2f6",
+      "border": "#cfd8e3"
+    },
+    "classic": {
+      "700": "#2354a3",
+      "100": "#eaf1fc",
+      "border": "#2354a3"
+    },
+    "flex": {
+      "700": "#087985",
+      "100": "#e6f5f6",
+      "border": "#73c2c8"
+    },
+    "business": {
+      "surface": "#151a21",
+      "surfaceStrong": "#10213f",
+      "text": "#ffffff",
+      "muted": "#cfd8e3",
+      "border": "#52627a",
+      "classicAccent": "#9ec5ff",
+      "classicAction": "#d7ecff",
+      "flexAccent": "#5ef2c5",
+      "flexAction": "#9ff8dd"
+    }
+  }
+}

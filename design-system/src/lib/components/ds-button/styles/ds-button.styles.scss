@@ -1,0 +1,104 @@
+:host {
+  display: inline-flex;
+}
+
+.ds-button {
+  align-items: center;
+  border: 2px solid transparent;
+  border-radius: var(--button-radius);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-weight: 800;
+  gap: var(--space-2);
+  justify-content: center;
+  min-height: var(--button-height);
+  padding-inline: var(--button-padding-inline);
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
+  white-space: nowrap;
+}
+
+.ds-button:focus-visible {
+  outline: var(--button-focus-outline);
+  outline-offset: var(--button-focus-offset);
+}
+
+.ds-button:disabled {
+  background: var(--button-disabled-background);
+  border-color: var(--button-disabled-border);
+  color: var(--button-disabled-color);
+  cursor: not-allowed;
+}
+
+.ds-button--primary {
+  background: var(--button-primary-background);
+  border-color: var(--button-primary-border);
+  color: var(--button-primary-color);
+}
+
+.ds-button--primary:not(:disabled):hover {
+  background: var(--button-primary-hover-background);
+  border-color: var(--button-primary-hover-border);
+}
+
+.ds-button--secondary {
+  background: var(--button-secondary-background);
+  border-color: var(--button-secondary-border);
+  color: var(--button-secondary-color);
+}
+
+.ds-button--secondary:not(:disabled):hover {
+  background: var(--button-secondary-hover-background);
+  border-color: var(--button-secondary-hover-border);
+}
+
+.ds-button--text {
+  background: var(--button-text-background);
+  border-color: transparent;
+  color: var(--button-text-color);
+  min-height: auto;
+  padding-inline: 0;
+}
+
+.ds-button--text:not(:disabled):hover {
+  color: var(--button-text-hover-color);
+  text-decoration: underline;
+}
+
+.ds-button--sm {
+  --button-height: 2.25rem;
+  --button-padding-inline: var(--space-4);
+
+  font-size: var(--font-size-sm);
+}
+
+.ds-button--md {
+  --button-height: 2.75rem;
+  --button-padding-inline: var(--space-5);
+
+  font-size: var(--font-size-md);
+}
+
+.ds-button--lg {
+  --button-height: 3rem;
+  --button-padding-inline: var(--space-6);
+
+  font-size: var(--font-size-md);
+}
+
+.ds-button--full-width,
+:host:has(.ds-button--full-width) {
+  inline-size: 100%;
+}
+
+.ds-button--full-width {
+  width: 100%;
+}
+
+.ds-button__icon {
+  line-height: 1;
+}

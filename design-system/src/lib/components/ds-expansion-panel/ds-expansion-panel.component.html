@@ -1,0 +1,26 @@
+<article class="ds-expansion-panel" [class.ds-expansion-panel--expanded]="expanded">
+  <h3 class="ds-expansion-panel__heading">
+    <button
+      class="ds-expansion-panel__trigger"
+      type="button"
+      [attr.aria-controls]="contentId"
+      [attr.aria-expanded]="expanded"
+      [id]="triggerId"
+      (click)="toggle()"
+    >
+      <span class="ds-expansion-panel__title">{{ title }}</span>
+      <span class="ds-expansion-panel__chevron" aria-hidden="true"></span>
+    </button>
+  </h3>
+
+  @if (expanded) {
+    <div
+      class="ds-expansion-panel__content"
+      role="region"
+      [attr.aria-labelledby]="triggerId"
+      [id]="contentId"
+    >
+      <ng-content />
+    </div>
+  }
+</article>

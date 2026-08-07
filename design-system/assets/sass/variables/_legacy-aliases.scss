@@ -1,0 +1,10 @@
+@mixin legacy-aliases {
+  --color-ink: var(--color-text-primary);
+  --color-muted: var(--color-text-secondary);
+  --color-primary: var(--color-brand-600);
+  --color-danger: var(--color-error-700);
+  --color-border: var(--color-border-default);
+  --color-disabled: var(--color-surface-subtle);
+  --color-info: var(--color-info-100);
+  --color-info-border: var(--color-info-700);
+}

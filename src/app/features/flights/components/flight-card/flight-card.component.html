@@ -1,0 +1,103 @@
+<article class="flight-card" [class.flight-card--expanded]="renderFarePanel()">
+  <button
+    class="flight-card__toggle"
+    type="button"
+    [attr.aria-expanded]="isFarePanelVisible()"
+    [attr.aria-controls]="renderFarePanel() ? 'fare-panel-' + flight.id : null"
+    (click)="toggled.emit(flight.id)"
+  >
+    <span class="flight-card__time-block">
+      <strong>{{ flight.departureTime }}</strong>
+      <span>{{ origin }}</span>
+    </span>
+
+    <span class="flight-card__timeline">
+      <span class="flight-card__meta">
+        <span>{{ stopsLabel(flight.stops) }}</span>
+        <span>{{ durationLabel(flight.durationMinutes) }}</span>
+      </span>
+      <span class="flight-card__timeline-rule" aria-hidden="true">
+        <span>&#9992;</span>
+      </span>
+      <span class="flight-card__operator">Operado por {{ flight.operator }}</span>
+    </span>
+
+    <span class="flight-card__time-block flight-card__time-block--arrival">
+      <strong>{{ flight.arrivalTime }}</strong>
+      <span>{{ destination }}</span>
+    </span>
+
+    <span class="flight-card__price-block">
+      <span>Desde</span>
+      <strong>{{ formatCurrency(lowestFare()) }}</strong>
+    </span>
+  </button>
+
+  @if (renderFarePanel()) {
+    <section
+      class="flight-card__fare-panel"
+      [class.flight-card__fare-panel--expanded]="isFarePanelVisible()"
+      [id]="'fare-panel-' + flight.id"
+      [attr.aria-hidden]="!isFarePanelVisible()"
+      [attr.data-cabin]="activeCabin()"
+      [attr.inert]="isFarePanelVisible() ? null : ''"
+    >
+      <div class="flight-card__fare-panel-inner">
+        <ds-segmented-control
+          class="flight-card__cabin-control"
+          [config]="cabinControlConfig()"
+          (valueChanged)="selectCabin($event)"
+        />
+
+        <div class="flight-card__fare-list">
+          @for (fare of visibleFares(); track fare.cabin + '-' + fare.code) {
+            <button
+              class="flight-card__fare-card"
+              [class.flight-card__fare-card--highlighted]="fare.highlighted"
+              [attr.data-fare]="fare.code"
+              [attr.data-cabin]="fare.cabin"
+              [attr.aria-label]="'Seleccionar tarifa ' + cabinLabel(fare.cabin) + ' ' + fare.name + ' por ' + formatCurrency(fare.price)"
+              [disabled]="!isFarePanelVisible()"
+              type="button"
+              (click)="fareSelected.emit(fare)"
+            >
+              @if (fare.highlighted) {
+                <span class="flight-card__fare-badge">Mejor opcion</span>
+              }
+
+              <span class="flight-card__fare-name">
+                @if (fare.cabin === 'business') {
+                  <small>Business</small>
+                }
+                {{ fare.name }}
+              </span>
+
+              <span class="flight-card__benefit-list">
+                @for (benefit of fare.benefits; track benefit) {
+                  <span class="flight-card__benefit-item">
+                    <span class="flight-card__benefit-marker" aria-hidden="true">&#10003;</span>
+                    {{ benefit }}
+                  </span>
+                }
+              </span>
+
+              <span class="flight-card__restriction-list">
+                @for (restriction of fare.restrictions; track restriction) {
+                  <span class="flight-card__restriction-item">
+                    <span class="flight-card__restriction-marker" aria-hidden="true">-</span>
+                    {{ restriction }}
+                  </span>
+                }
+              </span>
+
+              <span class="flight-card__fare-price">
+                {{ formatCurrency(fare.price) }}
+                <small>Precio por pasajero</small>
+              </span>
+            </button>
+          }
+        </div>
+      </div>
+    </section>
+  }
+</article>

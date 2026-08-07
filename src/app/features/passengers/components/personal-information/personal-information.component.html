@@ -1,0 +1,53 @@
+<ds-expansion-panel [expanded]="expanded" [title]="title" (expandedChange)="expandedChange.emit($event)">
+  <fieldset class="personal-information" [formGroup]="passengerGroup">
+    <legend class="personal-information__legend">{{ title }}</legend>
+
+    <div class="personal-information__grid">
+      <label class="personal-information__field">
+        <span>Nombres</span>
+        <input type="text" formControlName="firstName" autocomplete="given-name" />
+        @if (hasError('firstName')) {
+          <small>Este campo es obligatorio.</small>
+        }
+      </label>
+
+      <label class="personal-information__field">
+        <span>Apellidos</span>
+        <input type="text" formControlName="lastName" autocomplete="family-name" />
+        @if (hasError('lastName')) {
+          <small>Este campo es obligatorio.</small>
+        }
+      </label>
+
+      <label class="personal-information__field">
+        <span>Tipo de documento</span>
+        <select formControlName="documentType">
+          <option value="CC">Cedula</option>
+          <option value="CE">Cedula de extranjeria</option>
+          <option value="PA">Pasaporte</option>
+          <option value="TI">Tarjeta de identidad</option>
+        </select>
+      </label>
+
+      <label class="personal-information__field">
+        <span>Numero de documento</span>
+        <input type="text" formControlName="documentNumber" autocomplete="off" />
+        @if (hasError('documentNumber')) {
+          <small>Este campo es obligatorio.</small>
+        }
+      </label>
+
+      <label class="personal-information__field">
+        <span>Fecha de nacimiento</span>
+        <input type="date" formControlName="birthDate" />
+        @if (hasError('birthDate')) {
+          <small>Este campo es obligatorio.</small>
+        }
+      </label>
+    </div>
+
+    <div class="personal-information__actions">
+      <ds-button [config]="nextButtonConfig" (buttonClicked)="requestNext()" />
+    </div>
+  </fieldset>
+</ds-expansion-panel>

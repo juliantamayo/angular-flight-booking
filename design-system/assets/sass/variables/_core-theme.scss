@@ -1,0 +1,37 @@
+@use '../tokens/colors/brand.token' as brand;
+@use '../tokens/colors/foundation.token' as foundation;
+@use '../tokens/colors/text.token' as text;
+@use '../tokens/colors/border.token' as border;
+@use '../tokens/colors/states.token' as states;
+@use '../tokens/colors/fares.token' as fares;
+@use '../tokens/scss/accessibility.token' as accessibility;
+@use '../tokens/scss/border-radius.token' as radius;
+@use '../tokens/scss/box-shadow.token' as shadow;
+@use '../tokens/scss/buttons.token' as buttons;
+@use '../tokens/scss/bottom-summary.token' as bottom-summary;
+@use '../tokens/scss/expansion-panel.token' as expansion-panel;
+@use '../tokens/scss/segmented-control.token' as segmented-control;
+@use '../tokens/scss/spacing.token' as spacing;
+@use '../tokens/scss/typography.token' as typography;
+@use './common' as common;
+@use './legacy-aliases' as legacy;
+
+:root {
+  @include brand.brand-tokens;
+  @include foundation.foundation-color-tokens;
+  @include text.text-color-tokens;
+  @include border.border-color-tokens;
+  @include states.state-color-tokens;
+  @include fares.fare-color-tokens;
+  @include accessibility.accessibility-tokens;
+  @include typography.typography-tokens;
+  @include spacing.spacing-tokens;
+  @include radius.border-radius-tokens;
+  @include shadow.box-shadow-tokens;
+  @include buttons.button-tokens;
+  @include bottom-summary.bottom-summary-tokens;
+  @include expansion-panel.expansion-panel-tokens;
+  @include segmented-control.segmented-control-tokens;
+  @include common.semantic-aliases;
+  @include legacy.legacy-aliases;
+}

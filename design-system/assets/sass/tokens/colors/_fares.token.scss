@@ -1,0 +1,27 @@
+@mixin fare-color-tokens {
+  /* Basic */
+  --fare-basic-700: #52627a;
+  --fare-basic-100: #eef2f6;
+  --fare-basic-border: #cfd8e3;
+
+  /* Classic */
+  --fare-classic-700: #2354a3;
+  --fare-classic-100: #eaf1fc;
+  --fare-classic-border: #2354a3;
+
+  /* Flex */
+  --fare-flex-700: #087985;
+  --fare-flex-100: #e6f5f6;
+  --fare-flex-border: #73c2c8;
+
+  /* Business cabin */
+  --fare-business-surface: #151a21;
+  --fare-business-surface-strong: #10213f;
+  --fare-business-text: #ffffff;
+  --fare-business-muted: #cfd8e3;
+  --fare-business-border: #52627a;
+  --fare-business-classic-accent: #9ec5ff;
+  --fare-business-classic-action: #d7ecff;
+  --fare-business-flex-accent: #5ef2c5;
+  --fare-business-flex-action: #9ff8dd;
+}

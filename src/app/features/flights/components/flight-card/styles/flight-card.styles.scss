@@ -1,0 +1,325 @@
+.flight-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.flight-card--expanded {
+  border-color: var(--color-border-strong);
+}
+
+.flight-card__toggle {
+  align-items: stretch;
+  background: transparent;
+  border: 0;
+  color: var(--color-ink);
+  cursor: pointer;
+  display: grid;
+  font: inherit;
+  gap: var(--space-4);
+  grid-template-columns: minmax(5rem, 0.4fr) minmax(14rem, 1fr) minmax(5rem, 0.4fr) minmax(10rem, 0.55fr);
+  padding: var(--space-5);
+  text-align: start;
+  width: 100%;
+}
+
+.flight-card__toggle:focus-visible,
+.flight-card__fare-card:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: -3px;
+}
+
+.flight-card__time-block,
+.flight-card__price-block {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.flight-card__time-block strong,
+.flight-card__price-block strong {
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+}
+
+.flight-card__time-block span,
+.flight-card__price-block span,
+.flight-card__operator,
+.flight-card__meta {
+  color: var(--color-muted);
+}
+
+.flight-card__time-block--arrival {
+  text-align: end;
+}
+
+.flight-card__timeline {
+  align-content: center;
+  display: grid;
+  gap: var(--space-2);
+  text-align: center;
+}
+
+.flight-card__meta {
+  display: inline-flex;
+  gap: var(--space-3);
+  justify-content: center;
+}
+
+.flight-card__meta span:first-child {
+  color: var(--color-primary);
+  font-weight: 800;
+  text-decoration: underline;
+}
+
+.flight-card__timeline-rule {
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+}
+
+.flight-card__timeline-rule::before,
+.flight-card__timeline-rule::after {
+  border-block-start: 1px dashed var(--color-border-strong);
+  content: '';
+}
+
+.flight-card__timeline-rule span {
+  padding-inline: var(--space-2);
+}
+
+.flight-card__price-block {
+  border-inline-start: 1px solid var(--color-border);
+  padding-inline-start: var(--space-5);
+}
+
+.flight-card__fare-panel {
+  background: var(--color-background);
+  border-block-start: 1px solid transparent;
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  overflow: hidden;
+  padding: 0 var(--space-5);
+  transition:
+    border-color 220ms ease,
+    grid-template-rows 260ms ease,
+    opacity 180ms ease,
+    padding-block 260ms ease;
+}
+
+.flight-card__fare-panel--expanded {
+  border-block-start-color: var(--color-border);
+  grid-template-rows: 1fr;
+  opacity: 1;
+  padding-block: var(--space-5);
+}
+
+.flight-card__fare-panel-inner {
+  display: grid;
+  gap: var(--space-5);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.flight-card__cabin-control {
+  justify-self: center;
+}
+
+.flight-card__fare-list {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-inline: auto;
+  max-width: 58rem;
+  width: 100%;
+}
+
+.flight-card__fare-panel[data-cabin='business'] .flight-card__fare-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 44rem;
+}
+
+.flight-card__fare-card {
+  --fare-action-background: var(--fare-color);
+  --fare-action-color: var(--color-surface);
+  --fare-background: var(--fare-basic-100);
+  --fare-border: var(--fare-basic-border);
+  --fare-color: var(--fare-basic-700);
+
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-ink);
+  cursor: pointer;
+  display: grid;
+  font: inherit;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  position: relative;
+  text-align: start;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.flight-card__fare-card[data-fare='basic'] {
+  --fare-background: var(--fare-basic-100);
+  --fare-border: var(--fare-basic-border);
+  --fare-color: var(--fare-basic-700);
+}
+
+.flight-card__fare-card[data-fare='classic'] {
+  --fare-background: var(--fare-classic-100);
+  --fare-border: var(--fare-classic-border);
+  --fare-color: var(--fare-classic-700);
+}
+
+.flight-card__fare-card[data-fare='flex'] {
+  --fare-background: var(--fare-flex-100);
+  --fare-border: var(--fare-flex-border);
+  --fare-color: var(--fare-flex-700);
+}
+
+.flight-card__fare-card:hover {
+  background: var(--fare-background);
+  border-color: var(--fare-border);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-0.125rem);
+}
+
+.flight-card__fare-card[data-cabin='business'] {
+  --fare-action-color: var(--fare-business-surface);
+
+  background:
+    linear-gradient(135deg, var(--fare-business-surface-strong), var(--fare-business-surface) 42%),
+    var(--fare-business-surface);
+  border-color: var(--fare-business-border);
+  color: var(--fare-business-text);
+  min-height: 27rem;
+}
+
+.flight-card__fare-card[data-cabin='business'][data-fare='classic'] {
+  --fare-action-background: var(--fare-business-classic-action);
+  --fare-color: var(--fare-business-classic-accent);
+}
+
+.flight-card__fare-card[data-cabin='business'][data-fare='flex'] {
+  --fare-action-background: var(--fare-business-flex-action);
+  --fare-color: var(--fare-business-flex-accent);
+}
+
+.flight-card__fare-card[data-cabin='business']:hover {
+  background:
+    linear-gradient(135deg, var(--fare-business-surface-strong), var(--fare-business-surface) 42%),
+    var(--fare-business-surface);
+  border-color: var(--fare-color);
+}
+
+.flight-card__fare-card--highlighted {
+  border-color: var(--fare-color);
+  box-shadow: 0 0 0 1px var(--fare-color);
+}
+
+.flight-card__fare-badge {
+  background: var(--fare-color);
+  border-end-start-radius: var(--radius-sm);
+  border-start-end-radius: var(--radius-md);
+  color: var(--color-surface);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  padding: var(--space-2);
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  text-transform: uppercase;
+}
+
+.flight-card__fare-name {
+  color: var(--fare-color);
+  display: grid;
+  font-size: 1.45rem;
+  font-weight: 800;
+  gap: var(--space-1);
+  line-height: 1;
+}
+
+.flight-card__fare-name small {
+  color: inherit;
+  font-size: var(--font-size-md);
+  font-weight: 500;
+}
+
+.flight-card__benefit-list,
+.flight-card__restriction-list {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.flight-card__benefit-item,
+.flight-card__restriction-item {
+  align-items: start;
+  display: grid;
+  font-size: var(--font-size-sm);
+  gap: var(--space-2);
+  grid-template-columns: auto 1fr;
+}
+
+.flight-card__benefit-marker {
+  color: var(--fare-color);
+  font-weight: 800;
+}
+
+.flight-card__restriction-item {
+  color: var(--benefit-not-included);
+}
+
+.flight-card__fare-card[data-cabin='business'] .flight-card__benefit-item {
+  color: var(--fare-business-text);
+}
+
+.flight-card__fare-card[data-cabin='business'] .flight-card__restriction-item,
+.flight-card__fare-card[data-cabin='business'] .flight-card__restriction-marker {
+  color: var(--fare-business-muted);
+}
+
+.flight-card__restriction-marker {
+  color: var(--benefit-not-included);
+}
+
+.flight-card__fare-price {
+  align-self: end;
+  background: var(--fare-action-background);
+  border-radius: var(--radius-pill);
+  color: var(--fare-action-color);
+  display: grid;
+  font-weight: 800;
+  gap: var(--space-1);
+  justify-items: center;
+  margin-block-start: auto;
+  padding: var(--space-3);
+}
+
+.flight-card__fare-card[data-cabin='business'] .flight-card__fare-price {
+  color: var(--fare-action-color);
+}
+
+@media (max-width: 58rem) {
+  .flight-card__toggle,
+  .flight-card__fare-list {
+    grid-template-columns: 1fr;
+  }
+
+  .flight-card__price-block {
+    border-inline-start: 0;
+    padding-inline-start: 0;
+  }
+
+  .flight-card__time-block--arrival {
+    justify-self: start;
+    text-align: start;
+  }
+}

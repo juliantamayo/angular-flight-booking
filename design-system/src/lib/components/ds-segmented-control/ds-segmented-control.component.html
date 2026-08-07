@@ -1,0 +1,20 @@
+<div
+  class="ds-segmented-control"
+  [class.ds-segmented-control--sm]="size === 'sm'"
+  [class.ds-segmented-control--md]="size === 'md'"
+  role="group"
+  [attr.aria-label]="config.ariaLabel"
+>
+  @for (option of config.options; track option.value) {
+    <button
+      class="ds-segmented-control__option"
+      [class.ds-segmented-control__option--active]="isSelected(option)"
+      [attr.aria-pressed]="isSelected(option)"
+      [disabled]="option.disabled"
+      type="button"
+      (click)="selectOption(option)"
+    >
+      {{ option.label }}
+    </button>
+  }
+</div>

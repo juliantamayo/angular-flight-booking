@@ -1,0 +1,24 @@
+<button
+  class="ds-button"
+  [class.ds-button--primary]="variant === 'primary'"
+  [class.ds-button--secondary]="variant === 'secondary'"
+  [class.ds-button--text]="variant === 'text'"
+  [class.ds-button--sm]="size === 'sm'"
+  [class.ds-button--md]="size === 'md'"
+  [class.ds-button--lg]="size === 'lg'"
+  [class.ds-button--full-width]="config.fullWidth"
+  [attr.aria-label]="config.ariaLabel ?? null"
+  [attr.type]="type"
+  [disabled]="isDisabled"
+  (click)="buttonClicked.emit($event)"
+>
+  @if (config.icon && iconPosition === 'start') {
+    <span class="ds-button__icon" aria-hidden="true">{{ config.icon }}</span>
+  }
+
+  <span class="ds-button__label">{{ config.label }}</span>
+
+  @if (config.icon && iconPosition === 'end') {
+    <span class="ds-button__icon" aria-hidden="true">{{ config.icon }}</span>
+  }
+</button>
