@@ -28,6 +28,7 @@ export class SeatsPage {
 
   readonly columns: readonly SeatColumn[] = ['A', 'B', 'C', 'D', 'E', 'F'];
   readonly activePassengerIndex = signal(0);
+  readonly selectedFlight = this.store.selectedFlight;
   readonly selectedFare = this.store.selectedFare;
   readonly selectedSeatsByPassenger = signal<ReadonlyMap<number, SeatOption>>(new Map());
   readonly rows = Array.from({ length: 15 }, (_, index) => index + 1);
@@ -56,6 +57,29 @@ export class SeatsPage {
   readonly reservationTotal = computed(() => (this.selectedFare()?.price ?? 0) + this.seatsTotal());
   readonly bottomSummaryConfig = computed<DsBottomSummaryConfig>(() => ({
     actionLabel: 'Continuar',
+    summaryAriaLabel: 'Ver resumen de compra',
+    summarySections: [
+      {
+        title: 'Vuelo',
+        items: [
+          {
+            label: this.flightRouteLabel(),
+            meta: this.flightMetaLabel(),
+            value: this.selectedFlight()?.flightNumber ?? 'Pendiente',
+          },
+          {
+            label: 'Tarifa',
+            meta: this.selectedFare()?.cabin === 'business' ? 'Business Class' : 'Economy',
+            value: this.selectedFare()?.name ?? 'Pendiente',
+          },
+        ],
+      },
+      {
+        title: 'Asientos',
+        items: this.seatSummaryItems(),
+      },
+    ],
+    summaryTitle: 'Resumen de compra',
     total: this.formatCurrency(this.reservationTotal()),
     totalLabel: 'Total de tu reserva:',
   }));
@@ -137,6 +161,52 @@ export class SeatsPage {
       maximumFractionDigits: 0,
       style: 'currency',
     }).format(value);
+  }
+
+  private flightRouteLabel(): string {
+    const flight = this.selectedFlight();
+
+    return flight ? `${flight.origin} a ${flight.destination}` : 'Vuelo seleccionado';
+  }
+
+  private flightMetaLabel(): string {
+    const flight = this.selectedFlight();
+
+    return flight
+      ? `${flight.departureTime} - ${flight.arrivalTime}, ${this.durationLabel(flight.durationMinutes)}`
+      : 'Pendiente';
+  }
+
+  private seatSummaryItems(): readonly { label: string; meta?: string; value: string }[] {
+    if (!this.selectedSeats().length) {
+      return [
+        {
+          label: 'Seleccion',
+          value: 'Sin asientos',
+        },
+      ];
+    }
+
+    return this.passengerNames().map((passengerName, index) => {
+      const selectedSeat = this.selectedSeatForPassenger(index);
+
+      return {
+        label: passengerName,
+        meta: selectedSeat ? this.formatCurrency(selectedSeat.price) : undefined,
+        value: selectedSeat?.label ?? 'Sin asiento',
+      };
+    });
+  }
+
+  private durationLabel(minutes: number): string {
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+
+    if (!hours) {
+      return `${remainingMinutes}m`;
+    }
+
+    return remainingMinutes ? `${hours}h ${remainingMinutes}m` : `${hours}h`;
   }
 
   private moveToNextPendingPassenger(): void {

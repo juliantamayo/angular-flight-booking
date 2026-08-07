@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 
 import { DsButton, DsButtonConfig } from '../ds-button';
-import { DsBottomSummaryConfig } from './bottom-summary-config.model';
+import { DsBottomSummaryConfig, DsBottomSummarySection } from './bottom-summary-config.model';
 
 @Component({
   selector: 'ds-bottom-summary',
@@ -30,6 +30,7 @@ export class DsBottomSummary implements AfterViewInit, OnDestroy {
   @Output() readonly actionClicked = new EventEmitter<void>();
 
   readonly footerOffset = signal(0);
+  readonly isSummaryOpen = signal(false);
 
   get actionConfig(): DsButtonConfig {
     return {
@@ -39,6 +40,14 @@ export class DsBottomSummary implements AfterViewInit, OnDestroy {
       type: 'button',
       variant: 'primary',
     };
+  }
+
+  get hasSummary(): boolean {
+    return Boolean(this.config.summarySections?.length);
+  }
+
+  get summarySections(): readonly DsBottomSummarySection[] {
+    return this.config.summarySections ?? [];
   }
 
   ngAfterViewInit(): void {
@@ -70,6 +79,14 @@ export class DsBottomSummary implements AfterViewInit, OnDestroy {
 
   protected emitAction(): void {
     this.actionClicked.emit();
+  }
+
+  protected toggleSummary(): void {
+    if (!this.hasSummary) {
+      return;
+    }
+
+    this.isSummaryOpen.update((isOpen) => !isOpen);
   }
 
   private readonly queueFooterOffsetUpdate = (): void => {

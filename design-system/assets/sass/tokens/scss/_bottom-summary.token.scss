@@ -1,5 +1,7 @@
 @mixin bottom-summary-tokens {
   --bottom-summary-background: var(--color-surface);
   --bottom-summary-border: var(--color-border);
+  --bottom-summary-panel-background: var(--color-surface);
+  --bottom-summary-panel-border: var(--color-border-default);
   --bottom-summary-shadow: 0 -0.75rem 1.5rem rgb(20 33 61 / 10%);
 }
