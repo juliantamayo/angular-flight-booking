@@ -8,9 +8,10 @@
   [class.ds-button--lg]="size === 'lg'"
   [class.ds-button--full-width]="config.fullWidth"
   [attr.aria-label]="config.ariaLabel ?? null"
+  [attr.aria-disabled]="isAriaDisabled ? 'true' : null"
   [attr.type]="type"
   [disabled]="isDisabled"
-  (click)="buttonClicked.emit($event)"
+  (click)="handleClick($event)"
 >
   @if (config.icon && iconPosition === 'start') {
     <span class="ds-button__icon" aria-hidden="true">{{ config.icon }}</span>

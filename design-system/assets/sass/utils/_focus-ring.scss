@@ -1,0 +1,38 @@
+@mixin focus-ring($width: 3px, $offset: var(--focus-ring-offset), $color: var(--color-focus)) {
+  outline: $width solid $color;
+  outline-offset: $offset;
+}
+
+@mixin focus-ring-inset($width: 3px, $color: var(--color-focus)) {
+  box-shadow: inset 0 0 0 $width $color;
+  outline: 0;
+}
+
+@mixin focus-border($color: var(--color-ink)) {
+  border-color: $color;
+  outline: 0;
+}
+
+@mixin focus-ring-inset-contrast(
+  $inner-width: 3px,
+  $outer-width: 5px,
+  $inner-color: var(--color-surface),
+  $outer-color: var(--color-focus)
+) {
+  box-shadow:
+    inset 0 0 0 $inner-width $inner-color,
+    inset 0 0 0 $outer-width $outer-color;
+  outline: 0;
+}
+
+@mixin focus-ring-shadow(
+  $inner-width: 3px,
+  $outer-width: 5px,
+  $inner-color: var(--color-brand-100),
+  $outer-color: var(--color-focus)
+) {
+  box-shadow:
+    0 0 0 $inner-width $inner-color,
+    0 0 0 $outer-width $outer-color;
+  outline: 0;
+}

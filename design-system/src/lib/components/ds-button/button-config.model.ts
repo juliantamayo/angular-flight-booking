@@ -5,6 +5,7 @@ export type DsButtonIconPosition = 'start' | 'end';
 
 export interface DsButtonConfig {
   readonly ariaLabel?: string;
+  readonly ariaDisabled?: boolean;
   readonly disabled?: boolean;
   readonly fullWidth?: boolean;
   readonly icon?: string;

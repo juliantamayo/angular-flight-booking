@@ -92,7 +92,7 @@ export class SearchForm implements OnChanges {
   });
 
   readonly submitButtonConfig = computed<DsButtonConfig>(() => ({
-    disabled: this.formStatus() === 'INVALID',
+    ariaDisabled: this.formStatus() === 'INVALID',
     label: this.i18n.translate(this.textKeys.search.submit),
     size: 'lg',
     type: 'submit',

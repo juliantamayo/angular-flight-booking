@@ -27,7 +27,8 @@
   outline-offset: var(--button-focus-offset);
 }
 
-.ds-button:disabled {
+.ds-button:disabled,
+.ds-button[aria-disabled='true'] {
   background: var(--button-disabled-background);
   border-color: var(--button-disabled-border);
   color: var(--button-disabled-color);
@@ -40,7 +41,7 @@
   color: var(--button-primary-color);
 }
 
-.ds-button--primary:not(:disabled):hover {
+.ds-button--primary:not(:disabled):not([aria-disabled='true']):hover {
   background: var(--button-primary-hover-background);
   border-color: var(--button-primary-hover-border);
 }
@@ -51,7 +52,7 @@
   color: var(--button-secondary-color);
 }
 
-.ds-button--secondary:not(:disabled):hover {
+.ds-button--secondary:not(:disabled):not([aria-disabled='true']):hover {
   background: var(--button-secondary-hover-background);
   border-color: var(--button-secondary-hover-border);
 }
@@ -64,7 +65,7 @@
   padding-inline: 0;
 }
 
-.ds-button--text:not(:disabled):hover {
+.ds-button--text:not(:disabled):not([aria-disabled='true']):hover {
   color: var(--button-text-hover-color);
   text-decoration: underline;
 }

@@ -17,6 +17,10 @@ export class DsButton {
     return this.disabled || Boolean(this.config.disabled);
   }
 
+  get isAriaDisabled(): boolean {
+    return !this.isDisabled && Boolean(this.config.ariaDisabled);
+  }
+
   get iconPosition(): 'start' | 'end' {
     return this.config.iconPosition ?? 'start';
   }
@@ -31,5 +35,15 @@ export class DsButton {
 
   get variant(): 'primary' | 'secondary' | 'text' {
     return this.config.variant ?? 'primary';
+  }
+
+  handleClick(event: MouseEvent): void {
+    if (this.isDisabled || this.isAriaDisabled) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
+    this.buttonClicked.emit(event);
   }
 }

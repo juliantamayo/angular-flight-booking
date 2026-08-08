@@ -1,3 +1,5 @@
+@use '../../../design-system/assets/sass/utils/focus-ring' as focus;
+
 :host {
   display: block;
   min-height: 100dvh;
@@ -46,18 +48,30 @@
 
 .app-shell__language-button {
   background: var(--color-surface);
-  border: 0;
+  border: 2px solid transparent;
   color: var(--color-muted);
   cursor: pointer;
   font: inherit;
   font-weight: 800;
   min-height: 2rem;
-  padding-inline: var(--space-2);
+  padding-inline: calc(var(--space-2) - 2px);
+}
+
+.app-shell__language-button:focus,
+.app-shell__language-button:focus-visible {
+  @include focus.focus-border;
 }
 
 .app-shell__language-button--active {
   background: var(--color-primary);
   color: var(--color-surface);
+}
+
+.app-shell__language-button--active:focus,
+.app-shell__language-button--active:focus-visible {
+  @include focus.focus-border;
+
+  box-shadow: inset 0 0 0 2px var(--color-surface);
 }
 
 .app-shell__header {
