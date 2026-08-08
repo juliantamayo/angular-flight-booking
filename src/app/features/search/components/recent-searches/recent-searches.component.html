@@ -1,0 +1,50 @@
+<section class="recent-searches" aria-labelledby="recent-searches-title">
+  <div class="recent-searches__heading">
+    <h2 id="recent-searches-title">Busquedas recientes</h2>
+  </div>
+
+  <div class="recent-searches__list">
+    @for (
+      search of searches;
+      track search.origin + search.destination + search.departureDate + search.returnDate
+    ) {
+      <article class="recent-searches__card">
+        <button
+          class="recent-searches__action"
+          type="button"
+          [attr.aria-label]="
+            'Buscar vuelos de ' +
+            search.origin +
+            ' a ' +
+            search.destination +
+            ', ' +
+            dateSummary(search)
+          "
+          (click)="selectSearch(search)"
+        >
+          <span class="recent-searches__info">
+            <strong>{{ search.origin }} a {{ search.destination }}</strong>
+            <span>{{ dateSummary(search) }}</span>
+            <span>{{ passengerSummary(search) }}</span>
+          </span>
+        </button>
+
+        <button
+          class="recent-searches__remove"
+          type="button"
+          [attr.aria-label]="
+            'Eliminar busqueda reciente de ' +
+            search.origin +
+            ' a ' +
+            search.destination +
+            ', ' +
+            dateSummary(search)
+          "
+          (click)="removeSearch(search)"
+        >
+          x
+        </button>
+      </article>
+    }
+  </div>
+</section>

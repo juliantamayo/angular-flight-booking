@@ -5,11 +5,13 @@
     <p>{{ i18n.translate(textKeys.search.subtitle) }}</p>
   </div>
 
-  @if (hasSavedSearch()) {
-    <p class="search-page__status" aria-live="polite">
-      {{ i18n.translate(textKeys.search.savedSearch) }}
-    </p>
-  }
-
   <search-form [initialSearch]="savedSearch()" (searchSubmitted)="searchFlights($event)" />
+
+  @if (hasRecentSearches()) {
+    <app-recent-searches
+      [searches]="recentSearches()"
+      (recentSearchSelected)="useRecentSearch($event)"
+      (recentSearchRemoved)="removeRecentSearch($event)"
+    />
+  }
 </section>

@@ -7,5 +7,5 @@ export const confirmationGuard: CanActivateFn = () => {
   const store = inject(BookingStore);
   const router = inject(Router);
 
-  return store.hasConfirmedBooking() ? true : router.createUrlTree(['/review']);
+  return store.hasConfirmedBooking() ? true : router.createUrlTree(['/payment']);
 };

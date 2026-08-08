@@ -1,69 +1,32 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { DsBottomSummary, DsBottomSummaryConfig } from '@skybooking/design-system';
 
-import { ServiceCode, SelectedService } from '../../../../core/models/booking-flow.model';
 import { BookingStore } from '../../../../core/state/booking.store';
 
-interface ServiceOption {
-  readonly code: ServiceCode;
-  readonly description: string;
-  readonly name: string;
-  readonly price: number;
-}
-
 @Component({
-  selector: 'app-services-page',
+  selector: 'app-payment-page',
   imports: [DsBottomSummary],
-  templateUrl: './services-page.component.html',
-  styleUrl: './styles/services-page.styles.scss',
+  templateUrl: './payment-page.component.html',
+  styleUrl: './styles/payment-page.styles.scss',
 })
-export class ServicesPage {
+export class PaymentPage {
   private readonly router = inject(Router);
   private readonly store = inject(BookingStore);
 
   readonly selectedFare = this.store.selectedFare;
   readonly selectedFlight = this.store.selectedFlight;
   readonly selectedSeats = this.store.seats;
-  readonly selectedServiceCodes = signal<ReadonlySet<ServiceCode>>(new Set());
-  readonly services: readonly ServiceOption[] = [
-    {
-      code: 'extra-bag',
-      description: 'Agrega una maleta de bodega de 23 kg para tu viaje.',
-      name: 'Equipaje adicional',
-      price: 89000,
-    },
-    {
-      code: 'priority-boarding',
-      description: 'Aborda antes y manten tus objetos esenciales cerca.',
-      name: 'Embarque prioritario',
-      price: 36000,
-    },
-    {
-      code: 'travel-insurance',
-      description: 'Proteccion basica para imprevistos antes y durante el viaje.',
-      name: 'Asistencia de viaje',
-      price: 52000,
-    },
-    {
-      code: 'flex-assistance',
-      description: 'Soporte preferencial para cambios o dudas sobre tu reserva.',
-      name: 'Soporte flexible',
-      price: 42000,
-    },
-  ];
-  readonly selectedServices = computed(() =>
-    this.services.filter((service) => this.selectedServiceCodes().has(service.code)),
-  );
-  readonly servicesTotal = computed(() =>
-    this.selectedServices().reduce((total, service) => total + service.price, 0),
-  );
+  readonly selectedServices = this.store.services;
   readonly reservationTotal = computed(
     () =>
-      (this.selectedFare()?.price ?? 0) + (this.selectedSeats()?.total ?? 0) + this.servicesTotal(),
+      (this.selectedFare()?.price ?? 0) +
+      (this.selectedSeats()?.total ?? 0) +
+      (this.selectedServices()?.total ?? 0),
   );
   readonly bottomSummaryConfig = computed<DsBottomSummaryConfig>(() => ({
-    actionLabel: 'Continuar',
+    actionAriaLabel: 'Pagar reserva simulada',
+    actionLabel: 'Pagar',
     summaryAriaLabel: 'Ver resumen de compra',
     summarySections: [
       {
@@ -92,36 +55,15 @@ export class ServicesPage {
     ],
     summaryTitle: 'Resumen de compra',
     total: this.formatCurrency(this.reservationTotal()),
-    totalLabel: 'Total de tu reserva:',
+    totalLabel: 'Total a pagar:',
   }));
 
-  isSelected(code: ServiceCode): boolean {
-    return this.selectedServiceCodes().has(code);
-  }
-
-  toggleService(code: ServiceCode, checked: boolean): void {
-    const nextSelectedServices = new Set(this.selectedServiceCodes());
-
-    if (checked) {
-      nextSelectedServices.add(code);
-    } else {
-      nextSelectedServices.delete(code);
-    }
-
-    this.selectedServiceCodes.set(nextSelectedServices);
-  }
-
-  continueToPayment(): void {
-    this.store.saveServices({
-      selectedServices: this.selectedServices().map((service): SelectedService => ({
-        code: service.code,
-        name: service.name,
-        price: service.price,
-      })),
-      total: this.servicesTotal(),
+  payBooking(): void {
+    this.store.confirmBooking({
+      code: `SB-${Date.now().toString().slice(-6)}`,
     });
 
-    void this.router.navigate(['/payment']);
+    void this.router.navigate(['/confirmation']);
   }
 
   formatCurrency(value: number): string {
@@ -166,7 +108,9 @@ export class ServicesPage {
   }
 
   private serviceSummaryItems(): readonly { label: string; meta?: string; value: string }[] {
-    if (!this.selectedServices().length) {
+    const services = this.selectedServices()?.selectedServices ?? [];
+
+    if (!services.length) {
       return [
         {
           label: 'Servicios adicionales',
@@ -175,7 +119,7 @@ export class ServicesPage {
       ];
     }
 
-    return this.selectedServices().map((service) => ({
+    return services.map((service) => ({
       label: service.name,
       value: this.formatCurrency(service.price),
     }));

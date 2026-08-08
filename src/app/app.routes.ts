@@ -62,6 +62,15 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'payment',
+    title: 'Pago | SkyBooking',
+    canActivate: [bookingSearchGuard, selectedFlightGuard, selectedFareGuard, passengersGuard],
+    loadComponent: () =>
+      import('./features/payment/pages/payment-page/payment-page.component').then(
+        (m) => m.PaymentPage,
+      ),
+  },
+  {
     path: 'review',
     title: 'Revisar compra | SkyBooking',
     canActivate: [bookingSearchGuard, selectedFlightGuard, selectedFareGuard, passengersGuard],

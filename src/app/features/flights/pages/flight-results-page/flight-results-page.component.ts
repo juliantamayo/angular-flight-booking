@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { DsBottomSummary, DsBottomSummaryConfig } from '@skybooking/design-system';
 
@@ -27,7 +27,7 @@ interface SelectedFlightFare {
   templateUrl: './flight-results-page.component.html',
   styleUrl: './styles/flight-results-page.styles.scss',
 })
-export class FlightResultsPage {
+export class FlightResultsPage implements OnInit {
   private readonly router = inject(Router);
   private readonly store = inject(BookingStore);
   protected readonly i18n = inject(I18nService);
@@ -68,6 +68,14 @@ export class FlightResultsPage {
     totalLabel: 'Total de tu reserva:',
   }));
 
+  ngOnInit(): void {
+    const search = this.search();
+
+    if (search) {
+      this.store.saveRecentSearch(search);
+    }
+  }
+
   airportName(code: string): string {
     const airport = AIRPORTS.find((item) => item.code === code);
     return airport ? `${airport.city} (${airport.code})` : code;
@@ -93,6 +101,7 @@ export class FlightResultsPage {
 
   modifySearch(search: FlightSearch): void {
     this.store.saveSearch(search);
+    this.store.saveRecentSearch(search);
     this.resetSelections();
     this.expandedFlightId.set(null);
     this.isModifyOpen.set(false);

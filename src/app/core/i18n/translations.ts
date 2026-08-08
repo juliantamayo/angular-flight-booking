@@ -6,8 +6,6 @@ export const TRANSLATIONS: Record<LanguageCode, Record<TextKey, string>> = {
     'app.skipToContent': 'Saltar al contenido',
     'app.brandAria': 'SkyBooking, ir al inicio',
     'app.tagline': 'Reserva de vuelos simulada para portafolio',
-    'app.step': 'Paso 1 de 5',
-    'app.help': 'Ayuda',
     'app.headerControls': 'Controles de la aplicación',
     'app.languageSelector': 'Seleccionar idioma',
     'app.languageSpanish': 'Español',
@@ -17,7 +15,6 @@ export const TRANSLATIONS: Record<LanguageCode, Record<TextKey, string>> = {
     'search.title': 'Busca tu próximo vuelo',
     'search.subtitle':
       'Completa origen, destino, fechas y viajeros. Esta primera versión guarda la búsqueda para continuar el flujo paso a paso.',
-    'search.savedSearch': 'Recuperamos tu última búsqueda guardada.',
     'search.tripType': 'Tipo de viaje',
     'search.oneWay': 'Solo ida',
     'search.roundTrip': 'Ida y regreso',
@@ -62,8 +59,6 @@ export const TRANSLATIONS: Record<LanguageCode, Record<TextKey, string>> = {
     'app.skipToContent': 'Skip to content',
     'app.brandAria': 'SkyBooking, go to home',
     'app.tagline': 'Simulated flight booking for portfolio',
-    'app.step': 'Step 1 of 5',
-    'app.help': 'Help',
     'app.headerControls': 'Application controls',
     'app.languageSelector': 'Select language',
     'app.languageSpanish': 'Spanish',
@@ -73,7 +68,6 @@ export const TRANSLATIONS: Record<LanguageCode, Record<TextKey, string>> = {
     'search.title': 'Find your next flight',
     'search.subtitle':
       'Enter origin, destination, dates, and travelers. This first version saves the search so you can continue the flow step by step.',
-    'search.savedSearch': 'We restored your last saved search.',
     'search.tripType': 'Trip type',
     'search.oneWay': 'One way',
     'search.roundTrip': 'Round trip',

@@ -1,0 +1,113 @@
+<section class="confirmation-page" aria-labelledby="confirmation-page-title">
+  <div class="confirmation-page__hero" aria-live="polite">
+    <span class="confirmation-page__status-icon" aria-hidden="true">OK</span>
+    <p class="confirmation-page__eyebrow">Reserva simulada</p>
+    <h1 id="confirmation-page-title">Reserva confirmada</h1>
+    <p>Tu compra ficticia fue registrada correctamente.</p>
+  </div>
+
+  <section class="confirmation-page__card" aria-labelledby="confirmation-code-title">
+    <div class="confirmation-page__section-heading">
+      <h2 id="confirmation-code-title">Codigo de reserva</h2>
+      <p>Guarda este codigo para consultar esta experiencia dentro del prototipo.</p>
+    </div>
+
+    <strong class="confirmation-page__booking-code">
+      {{ confirmedBooking()?.code ?? 'SB-000000' }}
+    </strong>
+  </section>
+
+  <section class="confirmation-page__card" aria-labelledby="confirmation-summary-title">
+    <div class="confirmation-page__section-heading">
+      <h2 id="confirmation-summary-title">Resumen del viaje</h2>
+      <p>Estos son los datos principales de la reserva.</p>
+    </div>
+
+    <dl class="confirmation-page__summary-list">
+      <div>
+        <dt>Ruta</dt>
+        <dd>
+          @if (selectedFlight(); as flight) {
+            {{ flight.origin }} a {{ flight.destination }}
+          } @else {
+            No disponible
+          }
+        </dd>
+      </div>
+
+      <div>
+        <dt>Vuelo</dt>
+        <dd>{{ selectedFlight()?.flightNumber ?? 'No disponible' }}</dd>
+      </div>
+
+      <div>
+        <dt>Horario</dt>
+        <dd>
+          @if (selectedFlight(); as flight) {
+            {{ flight.departureTime }} - {{ flight.arrivalTime }}
+          } @else {
+            No disponible
+          }
+        </dd>
+      </div>
+
+      <div>
+        <dt>Tarifa</dt>
+        <dd>{{ selectedFare()?.name ?? 'No disponible' }}</dd>
+      </div>
+
+      <div>
+        <dt>Total pagado</dt>
+        <dd>{{ formatCurrency(reservationTotal()) }}</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="confirmation-page__card" aria-labelledby="confirmation-passengers-title">
+    <div class="confirmation-page__section-heading">
+      <h2 id="confirmation-passengers-title">Pasajeros</h2>
+      <p>Datos registrados para los viajeros de esta reserva.</p>
+    </div>
+
+    <ul class="confirmation-page__detail-list">
+      @for (passenger of passengers()?.passengers; track $index; let index = $index) {
+        <li>
+          <div>
+            <strong>{{ passengerName(index) }}</strong>
+            <span>{{ passengerType(index) }}</span>
+          </div>
+          <span>Asiento {{ seatForPassenger(index) }}</span>
+        </li>
+      }
+    </ul>
+  </section>
+
+  <section class="confirmation-page__card" aria-labelledby="confirmation-services-title">
+    <div class="confirmation-page__section-heading">
+      <h2 id="confirmation-services-title">Servicios contratados</h2>
+      <p>Servicios adicionales seleccionados para el viaje.</p>
+    </div>
+
+    @if (selectedServices()?.selectedServices?.length) {
+      <ul class="confirmation-page__detail-list">
+        @for (service of selectedServices()?.selectedServices; track service.code) {
+          <li>
+            <strong>{{ service.name }}</strong>
+            <span>{{ formatCurrency(service.price) }}</span>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="confirmation-page__empty">No agregaste servicios adicionales.</p>
+    }
+  </section>
+
+  <section class="confirmation-page__notice" aria-labelledby="confirmation-notice-title">
+    <h2 id="confirmation-notice-title">Ten en cuenta</h2>
+    <p>Este proyecto no procesa pagos ni reservas reales. La confirmacion es parte del flujo demostrativo.</p>
+  </section>
+
+  <button class="confirmation-page__action" type="button" (click)="returnHome()">
+    Volver al inicio
+  </button>
+</section>

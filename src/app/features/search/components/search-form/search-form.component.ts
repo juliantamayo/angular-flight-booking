@@ -1,13 +1,17 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   OnChanges,
   Output,
   SimpleChanges,
+  ViewChild,
   computed,
   effect,
   inject,
+  signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -37,9 +41,12 @@ export class SearchForm implements OnChanges {
 
   @Input() initialSearch: FlightSearch | null = null;
   @Output() readonly searchSubmitted = new EventEmitter<FlightSearch>();
+  @ViewChild('passengerMenu') private passengerMenu?: ElementRef<HTMLDetailsElement>;
+  @ViewChild('passengerSummary') private passengerSummary?: ElementRef<HTMLElement>;
 
   readonly airports = AIRPORTS;
   readonly today = new Date().toISOString().slice(0, 10);
+  readonly isPassengerMenuOpen = signal(false);
 
   readonly form = this.formBuilder.group(
     {
@@ -109,6 +116,31 @@ export class SearchForm implements OnChanges {
     }
   }
 
+  @HostListener('document:click', ['$event'])
+  closePassengerMenuFromOutside(event: MouseEvent): void {
+    const menu = this.passengerMenu?.nativeElement;
+
+    if (!menu?.open || menu.contains(event.target as Node)) {
+      return;
+    }
+
+    this.closePassengerMenu();
+  }
+
+  @HostListener('document:keydown.escape')
+  closePassengerMenuFromKeyboard(): void {
+    if (!this.passengerMenu?.nativeElement.open) {
+      return;
+    }
+
+    this.closePassengerMenu();
+    this.passengerSummary?.nativeElement.focus();
+  }
+
+  syncPassengerMenuState(event: Event): void {
+    this.isPassengerMenuOpen.set((event.currentTarget as HTMLDetailsElement).open);
+  }
+
   swapAirports(): void {
     const origin = this.form.controls.origin.value;
     const destination = this.form.controls.destination.value;
@@ -150,5 +182,16 @@ export class SearchForm implements OnChanges {
         infants: search.passengers.infants,
       },
     });
+  }
+
+  private closePassengerMenu(): void {
+    const menu = this.passengerMenu?.nativeElement;
+
+    if (!menu) {
+      return;
+    }
+
+    menu.open = false;
+    this.isPassengerMenuOpen.set(false);
   }
 }

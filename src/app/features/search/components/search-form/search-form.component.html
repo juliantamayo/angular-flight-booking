@@ -67,13 +67,29 @@
       }
     </div>
 
-    <details class="search-form__passenger-menu">
-      <summary class="search-form__passenger-summary">
-        <span>{{ i18n.translate(textKeys.search.passengers) }}</span>
+    <details
+      #passengerMenu
+      class="search-form__passenger-menu"
+      (toggle)="syncPassengerMenuState($event)"
+    >
+      <summary
+        #passengerSummary
+        class="search-form__passenger-summary"
+        aria-controls="search-passenger-options"
+        [attr.aria-expanded]="isPassengerMenuOpen()"
+      >
+        <span class="search-form__passenger-label">{{
+          i18n.translate(textKeys.search.passengers)
+        }}</span>
         <strong class="search-form__passenger-count">{{ passengerTotal() }}</strong>
+        <span class="search-form__passenger-chevron" aria-hidden="true"></span>
       </summary>
 
-      <fieldset class="search-form__passenger-options" formGroupName="passengers">
+      <fieldset
+        id="search-passenger-options"
+        class="search-form__passenger-options"
+        formGroupName="passengers"
+      >
         <legend>{{ i18n.translate(textKeys.search.passengers) }}</legend>
 
         <label class="search-form__passenger-option">

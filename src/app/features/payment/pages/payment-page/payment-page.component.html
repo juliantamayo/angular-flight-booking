@@ -1,0 +1,74 @@
+<section class="payment-page" aria-labelledby="payment-page-title">
+  <div class="payment-page__heading">
+    <p class="payment-page__eyebrow">Paso 5 de 5</p>
+    <h1 id="payment-page-title">Pago</h1>
+    <p>Completa la compra simulada con los datos de pago.</p>
+  </div>
+
+  <div class="payment-page__layout">
+    <section class="payment-page__section" aria-labelledby="payment-method-title">
+      <div class="payment-page__section-heading">
+        <h2 id="payment-method-title">Metodo de pago</h2>
+        <p>Selecciona como quieres pagar tu reserva.</p>
+      </div>
+
+      <fieldset class="payment-page__method-group">
+        <legend>Opciones de pago</legend>
+
+        <label class="payment-page__method-card payment-page__method-card--selected">
+          <input type="radio" name="payment-method" checked />
+          <span>
+            <strong>Tarjeta credito o debito</strong>
+            <small>Visa, Mastercard o American Express</small>
+          </span>
+        </label>
+
+        <label class="payment-page__method-card">
+          <input type="radio" name="payment-method" />
+          <span>
+            <strong>PSE</strong>
+            <small>Pago desde cuenta bancaria</small>
+          </span>
+        </label>
+      </fieldset>
+    </section>
+
+    <section class="payment-page__section" aria-labelledby="card-details-title">
+      <div class="payment-page__section-heading">
+        <h2 id="card-details-title">Datos de la tarjeta</h2>
+        <p>Esta reserva es ficticia. No procesamos pagos reales.</p>
+      </div>
+
+      <form class="payment-page__form">
+        <label class="payment-page__field">
+          <span>Nombre del titular</span>
+          <input type="text" autocomplete="cc-name" placeholder="Como aparece en la tarjeta" />
+        </label>
+
+        <label class="payment-page__field">
+          <span>Numero de tarjeta</span>
+          <input type="text" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" />
+        </label>
+
+        <div class="payment-page__field-row">
+          <label class="payment-page__field">
+            <span>Vencimiento</span>
+            <input type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" />
+          </label>
+
+          <label class="payment-page__field">
+            <span>CVV</span>
+            <input type="text" inputmode="numeric" autocomplete="cc-csc" placeholder="000" />
+          </label>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <section class="payment-page__notice" aria-labelledby="payment-notice-title">
+    <h2 id="payment-notice-title">Ten en cuenta</h2>
+    <p>Este proyecto es una experiencia demostrativa. No procesa pagos, reservas ni datos bancarios reales.</p>
+  </section>
+
+  <ds-bottom-summary [config]="bottomSummaryConfig()" (actionClicked)="payBooking()" />
+</section>
