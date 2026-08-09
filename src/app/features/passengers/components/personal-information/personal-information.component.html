@@ -4,50 +4,58 @@
 
     <div class="personal-information__grid">
       <label class="personal-information__field">
-        <span>Nombres</span>
+        <span>{{ i18n.translate(textKeys.passengers.personalInformation.firstName) }}</span>
         <input type="text" formControlName="firstName" autocomplete="given-name" />
         @if (hasError('firstName')) {
-          <small>Este campo es obligatorio.</small>
+          <small>{{ i18n.translate(textKeys.passengers.personalInformation.requiredError) }}</small>
         }
       </label>
 
       <label class="personal-information__field">
-        <span>Apellidos</span>
+        <span>{{ i18n.translate(textKeys.passengers.personalInformation.lastName) }}</span>
         <input type="text" formControlName="lastName" autocomplete="family-name" />
         @if (hasError('lastName')) {
-          <small>Este campo es obligatorio.</small>
+          <small>{{ i18n.translate(textKeys.passengers.personalInformation.requiredError) }}</small>
         }
       </label>
 
       <label class="personal-information__field">
-        <span>Tipo de documento</span>
+        <span>{{ i18n.translate(textKeys.passengers.personalInformation.documentType) }}</span>
         <select formControlName="documentType">
-          <option value="CC">Cedula</option>
-          <option value="CE">Cedula de extranjeria</option>
-          <option value="PA">Pasaporte</option>
-          <option value="TI">Tarjeta de identidad</option>
+          <option value="CC">
+            {{ i18n.translate(textKeys.passengers.personalInformation.documentTypeCc) }}
+          </option>
+          <option value="CE">
+            {{ i18n.translate(textKeys.passengers.personalInformation.documentTypeCe) }}
+          </option>
+          <option value="PA">
+            {{ i18n.translate(textKeys.passengers.personalInformation.documentTypePassport) }}
+          </option>
+          <option value="TI">
+            {{ i18n.translate(textKeys.passengers.personalInformation.documentTypeTi) }}
+          </option>
         </select>
       </label>
 
       <label class="personal-information__field">
-        <span>Numero de documento</span>
+        <span>{{ i18n.translate(textKeys.passengers.personalInformation.documentNumber) }}</span>
         <input type="text" formControlName="documentNumber" autocomplete="off" />
         @if (hasError('documentNumber')) {
-          <small>Este campo es obligatorio.</small>
+          <small>{{ i18n.translate(textKeys.passengers.personalInformation.requiredError) }}</small>
         }
       </label>
 
       <label class="personal-information__field">
-        <span>Fecha de nacimiento</span>
+        <span>{{ i18n.translate(textKeys.passengers.personalInformation.birthDate) }}</span>
         <input type="date" formControlName="birthDate" />
         @if (hasError('birthDate')) {
-          <small>Este campo es obligatorio.</small>
+          <small>{{ i18n.translate(textKeys.passengers.personalInformation.requiredError) }}</small>
         }
       </label>
     </div>
 
     <div class="personal-information__actions">
-      <ds-button [config]="nextButtonConfig" (buttonClicked)="requestNext()" />
+      <ds-button [config]="nextButtonConfig()" (buttonClicked)="requestNext()" />
     </div>
   </fieldset>
 </ds-expansion-panel>

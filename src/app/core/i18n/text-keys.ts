@@ -52,6 +52,29 @@ export const TEXT_KEYS = {
     editSearch: 'flights.editSearch',
     to: 'flights.to',
   },
+  passengers: {
+    bookingHolder: {
+      title: 'passengers.bookingHolder.title',
+      description: 'passengers.bookingHolder.description',
+      email: 'passengers.bookingHolder.email',
+      emailError: 'passengers.bookingHolder.emailError',
+      phone: 'passengers.bookingHolder.phone',
+      phoneError: 'passengers.bookingHolder.phoneError',
+    },
+    personalInformation: {
+      firstName: 'passengers.personalInformation.firstName',
+      lastName: 'passengers.personalInformation.lastName',
+      documentType: 'passengers.personalInformation.documentType',
+      documentTypeCc: 'passengers.personalInformation.documentTypeCc',
+      documentTypeCe: 'passengers.personalInformation.documentTypeCe',
+      documentTypePassport: 'passengers.personalInformation.documentTypePassport',
+      documentTypeTi: 'passengers.personalInformation.documentTypeTi',
+      documentNumber: 'passengers.personalInformation.documentNumber',
+      birthDate: 'passengers.personalInformation.birthDate',
+      requiredError: 'passengers.personalInformation.requiredError',
+      next: 'passengers.personalInformation.next',
+    },
+  },
 } as const;
 
 type NestedTextKeys = typeof TEXT_KEYS;

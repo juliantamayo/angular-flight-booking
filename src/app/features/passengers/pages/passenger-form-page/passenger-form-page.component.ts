@@ -5,12 +5,12 @@ import { DsBottomSummary, DsBottomSummaryConfig } from '@skybooking/design-syste
 
 import { PassengerInfo } from '../../../../core/models/booking-flow.model';
 import { BookingStore } from '../../../../core/state/booking.store';
-import { EmergencyContact } from '../../components/emergency-contact/emergency-contact.component';
+import { BookingHolder } from '../../components/booking-holder/booking-holder.component';
 import { PersonalInformation } from '../../components/personal-information/personal-information.component';
 
 @Component({
   selector: 'app-passenger-form-page',
-  imports: [DsBottomSummary, EmergencyContact, PersonalInformation, ReactiveFormsModule],
+  imports: [BookingHolder, DsBottomSummary, PersonalInformation, ReactiveFormsModule],
   templateUrl: './passenger-form-page.component.html',
   styleUrl: './styles/passenger-form-page.styles.scss',
 })
@@ -36,7 +36,7 @@ export class PassengerFormPage {
     totalLabel: 'Total de tu reserva:',
   }));
 
-  @ViewChild('emergencyContactSection') private emergencyContactSection?: ElementRef<HTMLElement>;
+  @ViewChild('bookingHolderSection') private bookingHolderSection?: ElementRef<HTMLElement>;
 
   get passengers() {
     return this.form.controls.passengers;
@@ -89,7 +89,7 @@ export class PassengerFormPage {
     }
 
     this.expandedPassengerIndexes.set(new Set());
-    this.focusEmergencyContact();
+    this.focusBookingHolder();
   }
 
   private createPassengerGroup(type: PassengerInfo['type']) {
@@ -134,8 +134,8 @@ export class PassengerFormPage {
     this.expandedPassengerIndexes.set(nextExpandedIndexes);
   }
 
-  private focusEmergencyContact(): void {
-    const element = this.emergencyContactSection?.nativeElement;
+  private focusBookingHolder(): void {
+    const element = this.bookingHolderSection?.nativeElement;
 
     if (!element) {
       return;
