@@ -7,13 +7,12 @@ import { TEXT_KEYS } from '../../../../core/i18n/text-keys';
 import { BookingStore } from '../../../../core/state/booking.store';
 import { AIRPORTS } from '../../../search/data/airports.data';
 import { SearchForm } from '../../../search/components/search-form/search-form.component';
-import { FlightSearch } from '../../../search/models/flight-search.model';
+import { FlightSearch, TripType } from '../../../search/models/flight-search.model';
 import { FlightCard } from '../../components/flight-card/flight-card.component';
 import { SelectedFlightSummary } from '../../components/selected-flight-summary/selected-flight-summary.component';
 import { FLIGHT_OPTIONS } from '../../data/flight-options.data';
+import { FlightDirection } from '../../models/flight-direction.model';
 import { FlightFare, FlightOption } from '../../models/flight-option.model';
-
-type FlightDirection = 'outbound' | 'return';
 
 interface SelectedFlightFare {
   readonly direction: FlightDirection;
@@ -32,12 +31,13 @@ export class FlightResultsPage implements OnInit {
   private readonly store = inject(BookingStore);
   protected readonly i18n = inject(I18nService);
   protected readonly textKeys = TEXT_KEYS;
+  protected readonly flightDirection = FlightDirection;
 
   readonly search = this.store.search;
   readonly flights = FLIGHT_OPTIONS;
   readonly expandedFlightId = signal<string | null>(null);
   readonly isModifyOpen = signal(false);
-  readonly activeDirection = signal<FlightDirection>('outbound');
+  readonly activeDirection = signal<FlightDirection>(FlightDirection.Outbound);
   readonly outboundSelection = signal<SelectedFlightFare | null>(null);
   readonly returnSelection = signal<SelectedFlightFare | null>(null);
   readonly passengerTotal = computed(() => {
@@ -52,7 +52,7 @@ export class FlightResultsPage implements OnInit {
       return false;
     }
 
-    return search.tripType === 'one-way'
+    return search.tripType === TripType.OneWay
       ? this.outboundSelection() !== null
       : this.outboundSelection() !== null && this.returnSelection() !== null;
   });
@@ -130,11 +130,11 @@ export class FlightResultsPage implements OnInit {
       fare,
     };
 
-    if (selection.direction === 'outbound') {
+    if (selection.direction === FlightDirection.Outbound) {
       this.outboundSelection.set(selection);
 
-      if (search.tripType === 'round-trip') {
-        this.activeDirection.set('return');
+      if (search.tripType === TripType.RoundTrip) {
+        this.activeDirection.set(FlightDirection.Return);
         this.expandedFlightId.set(null);
         return;
       }
@@ -175,7 +175,7 @@ export class FlightResultsPage implements OnInit {
     this.activeDirection.set(direction);
     this.expandedFlightId.set(null);
 
-    if (direction === 'outbound') {
+    if (direction === FlightDirection.Outbound) {
       this.outboundSelection.set(null);
       this.returnSelection.set(null);
     } else {
@@ -184,22 +184,24 @@ export class FlightResultsPage implements OnInit {
   }
 
   selectedOrigin(search: FlightSearch, direction: FlightDirection): string {
-    return direction === 'outbound' ? search.origin : search.destination;
+    return direction === FlightDirection.Outbound ? search.origin : search.destination;
   }
 
   selectedDestination(search: FlightSearch, direction: FlightDirection): string {
-    return direction === 'outbound' ? search.destination : search.origin;
+    return direction === FlightDirection.Outbound ? search.destination : search.origin;
   }
 
   selectedDate(search: FlightSearch, direction: FlightDirection): string {
-    return direction === 'outbound' ? search.departureDate : (search.returnDate ?? search.departureDate);
+    return direction === FlightDirection.Outbound
+      ? search.departureDate
+      : (search.returnDate ?? search.departureDate);
   }
 
   directionTitle(search: FlightSearch): string {
     const origin = this.airportCity(this.selectedOrigin(search, this.activeDirection()));
     const destination = this.airportCity(this.selectedDestination(search, this.activeDirection()));
 
-    return this.activeDirection() === 'outbound'
+    return this.activeDirection() === FlightDirection.Outbound
       ? `${this.i18n.translate(this.textKeys.flights.outboundTitle)} ${origin} ${this.i18n.translate(this.textKeys.flights.to)} ${destination}`
       : `${this.i18n.translate(this.textKeys.flights.returnTitle)} ${origin} ${this.i18n.translate(this.textKeys.flights.to)} ${destination}`;
   }
@@ -208,7 +210,7 @@ export class FlightResultsPage implements OnInit {
     const origin = this.airportCity(this.selectedOrigin(search, direction));
     const destination = this.airportCity(this.selectedDestination(search, direction));
 
-    return direction === 'outbound'
+    return direction === FlightDirection.Outbound
       ? `${this.i18n.translate(this.textKeys.flights.outboundTitle)} ${origin} ${this.i18n.translate(this.textKeys.flights.to)} ${destination}`
       : `${this.i18n.translate(this.textKeys.flights.returnTitle)} ${origin} ${this.i18n.translate(this.textKeys.flights.to)} ${destination}`;
   }
@@ -222,7 +224,7 @@ export class FlightResultsPage implements OnInit {
   }
 
   private resetSelections(): void {
-    this.activeDirection.set('outbound');
+    this.activeDirection.set(FlightDirection.Outbound);
     this.outboundSelection.set(null);
     this.returnSelection.set(null);
   }

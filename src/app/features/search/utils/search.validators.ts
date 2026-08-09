@@ -1,5 +1,7 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
+import { TripType } from '../models/flight-search.model';
+
 export const differentAirportsValidator: ValidatorFn = (
   control: AbstractControl,
 ): ValidationErrors | null => {
@@ -22,7 +24,7 @@ export const dateRangeValidator: ValidatorFn = (
     return { pastDepartureDate: true };
   }
 
-  if (tripType === 'round-trip') {
+  if (tripType === TripType.RoundTrip) {
     if (!returnDate) {
       return { missingReturnDate: true };
     }

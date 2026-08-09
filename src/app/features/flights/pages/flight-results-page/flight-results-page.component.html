@@ -56,32 +56,32 @@
         </h1>
 
         <selected-flight-summary
-          [segmentTitle]="segmentTitle(currentSearch, 'outbound')"
-          [date]="selectedDate(currentSearch, 'outbound')"
+          [segmentTitle]="segmentTitle(currentSearch, flightDirection.Outbound)"
+          [date]="selectedDate(currentSearch, flightDirection.Outbound)"
           [flight]="selectedOutbound.flight"
           [fare]="selectedOutbound.fare"
           [origin]="currentSearch.origin"
           [destination]="currentSearch.destination"
-          (editRequested)="editSelection('outbound')"
+          (editRequested)="editSelection(flightDirection.Outbound)"
         ></selected-flight-summary>
 
         @if (returnSelection(); as selectedReturn) {
           <selected-flight-summary
-            [segmentTitle]="segmentTitle(currentSearch, 'return')"
-            [date]="selectedDate(currentSearch, 'return')"
+            [segmentTitle]="segmentTitle(currentSearch, flightDirection.Return)"
+            [date]="selectedDate(currentSearch, flightDirection.Return)"
             [flight]="selectedReturn.flight"
             [fare]="selectedReturn.fare"
             [origin]="currentSearch.destination"
             [destination]="currentSearch.origin"
-            (editRequested)="editSelection('return')"
+            (editRequested)="editSelection(flightDirection.Return)"
           ></selected-flight-summary>
         }
       </section>
     }
 
     @if (
-      (activeDirection() === 'outbound' && !outboundSelection()) ||
-      (activeDirection() === 'return' && !returnSelection())
+      (activeDirection() === flightDirection.Outbound && !outboundSelection()) ||
+      (activeDirection() === flightDirection.Return && !returnSelection())
     ) {
       <div class="results-page__route-heading">
         <div class="results-page__route-title-group">

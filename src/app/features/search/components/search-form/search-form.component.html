@@ -2,11 +2,11 @@
   <fieldset class="search-form__trip-toggle">
     <legend>{{ i18n.translate(textKeys.search.tripType) }}</legend>
     <label>
-      <input type="radio" formControlName="tripType" value="round-trip" />
+      <input type="radio" formControlName="tripType" [value]="tripType.RoundTrip" />
       <span>{{ i18n.translate(textKeys.search.roundTrip) }}</span>
     </label>
     <label>
-      <input type="radio" formControlName="tripType" value="one-way" />
+      <input type="radio" formControlName="tripType" [value]="tripType.OneWay" />
       <span>{{ i18n.translate(textKeys.search.oneWay) }}</span>
     </label>
   </fieldset>
@@ -54,7 +54,7 @@
         />
       </label>
 
-      @if (form.controls.tripType.value === 'round-trip') {
+      @if (form.controls.tripType.value === tripType.RoundTrip) {
         <label class="search-form__field">
           <span>{{ i18n.translate(textKeys.search.returnDate) }}</span>
           <input

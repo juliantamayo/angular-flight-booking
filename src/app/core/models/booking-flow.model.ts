@@ -27,13 +27,19 @@ export interface PassengerContact {
   readonly phone: string;
 }
 
+export enum PassengerType {
+  Adult = 'adult',
+  Child = 'child',
+  Infant = 'infant',
+}
+
 export interface PassengerInfo {
   readonly birthDate: string;
   readonly documentNumber: string;
   readonly documentType: string;
   readonly firstName: string;
   readonly lastName: string;
-  readonly type: 'adult' | 'child' | 'infant';
+  readonly type: PassengerType;
 }
 
 export interface ServicesDraft {

@@ -4,7 +4,7 @@ import { DsIcon } from '@skybooking/design-system';
 
 import { I18nService } from '../../../../core/i18n/i18n.service';
 import { TEXT_KEYS, TranslationKey } from '../../../../core/i18n/text-keys';
-import { PassengerInfo } from '../../../../core/models/booking-flow.model';
+import { PassengerInfo, PassengerType } from '../../../../core/models/booking-flow.model';
 import { BookingStore } from '../../../../core/state/booking.store';
 
 @Component({
@@ -48,11 +48,11 @@ export class ConfirmationPage {
   }
 
   passengerType(index: number): string {
-    const type = this.passengers()?.passengers[index]?.type ?? 'adult';
+    const type = this.passengers()?.passengers[index]?.type ?? PassengerType.Adult;
     const keyByType: Record<PassengerInfo['type'], TranslationKey> = {
-      adult: this.textKeys.confirmation.passengerAdult,
-      child: this.textKeys.confirmation.passengerChild,
-      infant: this.textKeys.confirmation.passengerInfant,
+      [PassengerType.Adult]: this.textKeys.confirmation.passengerAdult,
+      [PassengerType.Child]: this.textKeys.confirmation.passengerChild,
+      [PassengerType.Infant]: this.textKeys.confirmation.passengerInfant,
     };
 
     return this.i18n.translate(keyByType[type]);

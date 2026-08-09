@@ -21,7 +21,7 @@ import { startWith } from 'rxjs';
 import { I18nService } from '../../../../core/i18n/i18n.service';
 import { TEXT_KEYS } from '../../../../core/i18n/text-keys';
 import { AIRPORTS } from '../../data/airports.data';
-import { FlightSearch } from '../../models/flight-search.model';
+import { FlightSearch, TripType } from '../../models/flight-search.model';
 import {
   dateRangeValidator,
   differentAirportsValidator,
@@ -38,6 +38,7 @@ export class SearchForm implements OnChanges {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   protected readonly i18n = inject(I18nService);
   protected readonly textKeys = TEXT_KEYS;
+  protected readonly tripType = TripType;
 
   @Input() initialSearch: FlightSearch | null = null;
   @Output() readonly searchSubmitted = new EventEmitter<FlightSearch>();
@@ -50,7 +51,7 @@ export class SearchForm implements OnChanges {
 
   readonly form = this.formBuilder.group(
     {
-      tripType: this.formBuilder.control<FlightSearch['tripType']>('one-way'),
+      tripType: this.formBuilder.control<FlightSearch['tripType']>(TripType.OneWay),
       origin: this.formBuilder.control('', Validators.required),
       destination: this.formBuilder.control('', Validators.required),
       departureDate: this.formBuilder.control('', Validators.required),
@@ -159,7 +160,7 @@ export class SearchForm implements OnChanges {
 
     this.searchSubmitted.emit({
       ...value,
-      returnDate: value.tripType === 'round-trip' ? value.returnDate : null,
+      returnDate: value.tripType === TripType.RoundTrip ? value.returnDate : null,
     });
   }
 

@@ -1,4 +1,7 @@
-export type TripType = 'one-way' | 'round-trip';
+export enum TripType {
+  OneWay = 'one-way',
+  RoundTrip = 'round-trip',
+}
 
 export interface PassengerCounts {
   readonly adults: number;

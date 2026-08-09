@@ -5,7 +5,7 @@ import { DsBottomSummary, DsBottomSummaryConfig } from '@skybooking/design-syste
 
 import { I18nService } from '../../../../core/i18n/i18n.service';
 import { TEXT_KEYS, TranslationKey } from '../../../../core/i18n/text-keys';
-import { PassengerInfo } from '../../../../core/models/booking-flow.model';
+import { PassengerInfo, PassengerType } from '../../../../core/models/booking-flow.model';
 import { BookingStore } from '../../../../core/state/booking.store';
 import { BookingStepIndicator } from '../../../../shared/components/booking-step-indicator/booking-step-indicator.component';
 import { BookingHolder } from '../../components/booking-holder/booking-holder.component';
@@ -119,15 +119,15 @@ export class PassengerFormPage {
     const labels: Array<{ type: PassengerInfo['type'] }> = [];
 
     for (let index = 0; index < (passengers?.adults ?? 1); index += 1) {
-      labels.push({ type: 'adult' });
+      labels.push({ type: PassengerType.Adult });
     }
 
     for (let index = 0; index < (passengers?.children ?? 0); index += 1) {
-      labels.push({ type: 'child' });
+      labels.push({ type: PassengerType.Child });
     }
 
     for (let index = 0; index < (passengers?.infants ?? 0); index += 1) {
-      labels.push({ type: 'infant' });
+      labels.push({ type: PassengerType.Infant });
     }
 
     return labels;
@@ -135,9 +135,9 @@ export class PassengerFormPage {
 
   private passengerTypeLabel(type: PassengerInfo['type']): string {
     const keyByType: Record<PassengerInfo['type'], TranslationKey> = {
-      adult: this.textKeys.passengers.page.adult,
-      child: this.textKeys.passengers.page.child,
-      infant: this.textKeys.passengers.page.infant,
+      [PassengerType.Adult]: this.textKeys.passengers.page.adult,
+      [PassengerType.Child]: this.textKeys.passengers.page.child,
+      [PassengerType.Infant]: this.textKeys.passengers.page.infant,
     };
 
     return this.i18n.translate(keyByType[type]);
