@@ -2,7 +2,7 @@ import { computed, Injectable, signal } from '@angular/core';
 
 import { STORAGE_KEYS } from '../constants/storage-keys';
 import { LanguageCode, LANGUAGE_CODES } from './language.model';
-import { TextKey } from './text-keys';
+import { TranslationKey } from './text-keys';
 import { TRANSLATIONS } from './translations';
 
 @Injectable({ providedIn: 'root' })
@@ -18,7 +18,7 @@ export class I18nService {
     document.documentElement.lang = language;
   }
 
-  translate(key: TextKey): string {
+  translate(key: TranslationKey): string {
     return TRANSLATIONS[this.currentLanguage()][key];
   }
 

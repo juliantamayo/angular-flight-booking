@@ -1,0 +1,6 @@
+@if (currentStep(); as step) {
+  <span class="booking-step-indicator">
+    {{ i18n.translate(textKeys.flow.step) }} {{ step }}
+    {{ i18n.translate(textKeys.flow.of) }} {{ totalSteps }}
+  </span>
+}

@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 
+import { I18nService } from '../../../../core/i18n/i18n.service';
+import { TEXT_KEYS, TranslationKey } from '../../../../core/i18n/text-keys';
 import { FlightSearch } from '../../models/flight-search.model';
 
 @Component({
@@ -8,6 +10,9 @@ import { FlightSearch } from '../../models/flight-search.model';
   styleUrl: './styles/recent-searches.styles.scss',
 })
 export class RecentSearches {
+  protected readonly i18n = inject(I18nService);
+  protected readonly textKeys = TEXT_KEYS;
+
   @Input({ required: true }) searches: readonly FlightSearch[] = [];
 
   @Output() readonly recentSearchRemoved = new EventEmitter<FlightSearch>();
@@ -19,8 +24,20 @@ export class RecentSearches {
 
   passengerSummary(search: FlightSearch): string {
     const total = search.passengers.adults + search.passengers.children + search.passengers.infants;
+    const passengerKey =
+      total === 1
+        ? this.textKeys.search.recentSearchesPassengerSingular
+        : this.textKeys.search.recentSearchesPassengerPlural;
 
-    return total === 1 ? '1 pasajero' : `${total} pasajeros`;
+    return `${total} ${this.i18n.translate(passengerKey)}`;
+  }
+
+  removeSearchAriaLabel(search: FlightSearch): string {
+    return this.searchActionLabel(search, this.textKeys.search.recentSearchesRemoveAriaPrefix);
+  }
+
+  selectSearchAriaLabel(search: FlightSearch): string {
+    return this.searchActionLabel(search, this.textKeys.search.recentSearchesSelectAriaPrefix);
   }
 
   removeSearch(search: FlightSearch): void {
@@ -29,5 +46,13 @@ export class RecentSearches {
 
   selectSearch(search: FlightSearch): void {
     this.recentSearchSelected.emit(search);
+  }
+
+  private routeSummary(search: FlightSearch): string {
+    return `${search.origin} ${this.i18n.translate(this.textKeys.search.recentSearchesRouteConnector)} ${search.destination}`;
+  }
+
+  private searchActionLabel(search: FlightSearch, actionKey: TranslationKey): string {
+    return `${this.i18n.translate(actionKey)} ${this.routeSummary(search)}, ${this.dateSummary(search)}`;
   }
 }

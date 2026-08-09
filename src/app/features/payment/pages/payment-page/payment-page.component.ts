@@ -2,17 +2,22 @@ import { Component, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { DsBottomSummary, DsBottomSummaryConfig } from '@skybooking/design-system';
 
+import { I18nService } from '../../../../core/i18n/i18n.service';
+import { TEXT_KEYS } from '../../../../core/i18n/text-keys';
 import { BookingStore } from '../../../../core/state/booking.store';
+import { BookingStepIndicator } from '../../../../shared/components/booking-step-indicator/booking-step-indicator.component';
 
 @Component({
   selector: 'app-payment-page',
-  imports: [DsBottomSummary],
+  imports: [BookingStepIndicator, DsBottomSummary],
   templateUrl: './payment-page.component.html',
   styleUrl: './styles/payment-page.styles.scss',
 })
 export class PaymentPage {
+  protected readonly i18n = inject(I18nService);
   private readonly router = inject(Router);
   private readonly store = inject(BookingStore);
+  protected readonly textKeys = TEXT_KEYS;
 
   readonly selectedFare = this.store.selectedFare;
   readonly selectedFlight = this.store.selectedFlight;
@@ -25,37 +30,43 @@ export class PaymentPage {
       (this.selectedServices()?.total ?? 0),
   );
   readonly bottomSummaryConfig = computed<DsBottomSummaryConfig>(() => ({
-    actionAriaLabel: 'Pagar reserva simulada',
-    actionLabel: 'Pagar',
-    summaryAriaLabel: 'Ver resumen de compra',
+    actionAriaLabel: this.i18n.translate(this.textKeys.payment.summary.actionAriaLabel),
+    actionLabel: this.i18n.translate(this.textKeys.payment.summary.actionLabel),
+    summaryAriaLabel: this.i18n.translate(this.textKeys.payment.summary.ariaLabel),
     summarySections: [
       {
-        title: 'Vuelo',
+        title: this.i18n.translate(this.textKeys.payment.summary.flight),
         items: [
           {
             label: this.flightRouteLabel(),
             meta: this.flightMetaLabel(),
-            value: this.selectedFlight()?.flightNumber ?? 'Pendiente',
+            value:
+              this.selectedFlight()?.flightNumber ??
+              this.i18n.translate(this.textKeys.payment.summary.pending),
           },
           {
-            label: 'Tarifa',
-            meta: this.selectedFare()?.cabin === 'business' ? 'Business Class' : 'Economy',
-            value: this.selectedFare()?.name ?? 'Pendiente',
+            label: this.i18n.translate(this.textKeys.payment.summary.fare),
+            meta:
+              this.selectedFare()?.cabin === 'business'
+                ? this.i18n.translate(this.textKeys.payment.summary.cabinBusiness)
+                : this.i18n.translate(this.textKeys.payment.summary.cabinEconomy),
+            value:
+              this.selectedFare()?.name ?? this.i18n.translate(this.textKeys.payment.summary.pending),
           },
         ],
       },
       {
-        title: 'Asientos',
+        title: this.i18n.translate(this.textKeys.payment.summary.seats),
         items: this.seatSummaryItems(),
       },
       {
-        title: 'Servicios',
+        title: this.i18n.translate(this.textKeys.payment.summary.services),
         items: this.serviceSummaryItems(),
       },
     ],
-    summaryTitle: 'Resumen de compra',
+    summaryTitle: this.i18n.translate(this.textKeys.payment.summary.title),
     total: this.formatCurrency(this.reservationTotal()),
-    totalLabel: 'Total a pagar:',
+    totalLabel: this.i18n.translate(this.textKeys.payment.summary.totalLabel),
   }));
 
   payBooking(): void {
@@ -77,7 +88,9 @@ export class PaymentPage {
   private flightRouteLabel(): string {
     const flight = this.selectedFlight();
 
-    return flight ? `${flight.origin} a ${flight.destination}` : 'Vuelo seleccionado';
+    return flight
+      ? `${flight.origin} a ${flight.destination}`
+      : this.i18n.translate(this.textKeys.payment.summary.selectedFlightFallback);
   }
 
   private flightMetaLabel(): string {
@@ -85,7 +98,7 @@ export class PaymentPage {
 
     return flight
       ? `${flight.departureTime} - ${flight.arrivalTime}, ${this.durationLabel(flight.durationMinutes)}`
-      : 'Pendiente';
+      : this.i18n.translate(this.textKeys.payment.summary.pending);
   }
 
   private seatSummaryItems(): readonly { label: string; meta?: string; value: string }[] {
@@ -94,14 +107,14 @@ export class PaymentPage {
     if (!seats.length) {
       return [
         {
-          label: 'Seleccion',
-          value: 'Sin asientos',
+          label: this.i18n.translate(this.textKeys.payment.summary.seatSelection),
+          value: this.i18n.translate(this.textKeys.payment.summary.noSeats),
         },
       ];
     }
 
     return seats.map((seat) => ({
-      label: `Pasajero ${seat.passengerIndex + 1}`,
+      label: `${this.i18n.translate(this.textKeys.payment.summary.passenger)} ${seat.passengerIndex + 1}`,
       meta: this.formatCurrency(seat.price),
       value: seat.label,
     }));
@@ -113,8 +126,8 @@ export class PaymentPage {
     if (!services.length) {
       return [
         {
-          label: 'Servicios adicionales',
-          value: 'Sin agregar',
+          label: this.i18n.translate(this.textKeys.payment.summary.services),
+          value: this.i18n.translate(this.textKeys.payment.summary.noServices),
         },
       ];
     }

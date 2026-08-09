@@ -1,33 +1,33 @@
 <section class="payment-page" aria-labelledby="payment-page-title">
   <div class="payment-page__heading">
-    <p class="payment-page__eyebrow">Paso 5 de 5</p>
-    <h1 id="payment-page-title">Pago</h1>
-    <p>Completa la compra simulada con los datos de pago.</p>
+    <app-booking-step-indicator />
+    <h1 id="payment-page-title">{{ i18n.translate(textKeys.payment.page.title) }}</h1>
+    <p>{{ i18n.translate(textKeys.payment.page.description) }}</p>
   </div>
 
   <div class="payment-page__layout">
     <section class="payment-page__section" aria-labelledby="payment-method-title">
       <div class="payment-page__section-heading">
-        <h2 id="payment-method-title">Metodo de pago</h2>
-        <p>Selecciona como quieres pagar tu reserva.</p>
+        <h2 id="payment-method-title">{{ i18n.translate(textKeys.payment.page.methodTitle) }}</h2>
+        <p>{{ i18n.translate(textKeys.payment.page.methodDescription) }}</p>
       </div>
 
       <fieldset class="payment-page__method-group">
-        <legend>Opciones de pago</legend>
+        <legend>{{ i18n.translate(textKeys.payment.page.methodLegend) }}</legend>
 
         <label class="payment-page__method-card payment-page__method-card--selected">
           <input type="radio" name="payment-method" checked />
           <span>
-            <strong>Tarjeta credito o debito</strong>
-            <small>Visa, Mastercard o American Express</small>
+            <strong>{{ i18n.translate(textKeys.payment.page.cardMethodTitle) }}</strong>
+            <small>{{ i18n.translate(textKeys.payment.page.cardMethodDescription) }}</small>
           </span>
         </label>
 
         <label class="payment-page__method-card">
           <input type="radio" name="payment-method" />
           <span>
-            <strong>PSE</strong>
-            <small>Pago desde cuenta bancaria</small>
+            <strong>{{ i18n.translate(textKeys.payment.page.pseMethodTitle) }}</strong>
+            <small>{{ i18n.translate(textKeys.payment.page.pseMethodDescription) }}</small>
           </span>
         </label>
       </fieldset>
@@ -35,30 +35,49 @@
 
     <section class="payment-page__section" aria-labelledby="card-details-title">
       <div class="payment-page__section-heading">
-        <h2 id="card-details-title">Datos de la tarjeta</h2>
-        <p>Esta reserva es ficticia. No procesamos pagos reales.</p>
+        <h2 id="card-details-title">{{ i18n.translate(textKeys.payment.page.cardDetailsTitle) }}</h2>
+        <p>{{ i18n.translate(textKeys.payment.page.cardDetailsDescription) }}</p>
       </div>
 
       <form class="payment-page__form">
         <label class="payment-page__field">
-          <span>Nombre del titular</span>
-          <input type="text" autocomplete="cc-name" placeholder="Como aparece en la tarjeta" />
+          <span>{{ i18n.translate(textKeys.payment.page.cardholderName) }}</span>
+          <input
+            type="text"
+            autocomplete="cc-name"
+            [placeholder]="i18n.translate(textKeys.payment.page.cardholderNamePlaceholder)"
+          />
         </label>
 
         <label class="payment-page__field">
-          <span>Numero de tarjeta</span>
-          <input type="text" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" />
+          <span>{{ i18n.translate(textKeys.payment.page.cardNumber) }}</span>
+          <input
+            type="text"
+            inputmode="numeric"
+            autocomplete="cc-number"
+            [placeholder]="i18n.translate(textKeys.payment.page.cardNumberPlaceholder)"
+          />
         </label>
 
         <div class="payment-page__field-row">
           <label class="payment-page__field">
-            <span>Vencimiento</span>
-            <input type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" />
+            <span>{{ i18n.translate(textKeys.payment.page.expiration) }}</span>
+            <input
+              type="text"
+              inputmode="numeric"
+              autocomplete="cc-exp"
+              [placeholder]="i18n.translate(textKeys.payment.page.expirationPlaceholder)"
+            />
           </label>
 
           <label class="payment-page__field">
-            <span>CVV</span>
-            <input type="text" inputmode="numeric" autocomplete="cc-csc" placeholder="000" />
+            <span>{{ i18n.translate(textKeys.payment.page.cvv) }}</span>
+            <input
+              type="text"
+              inputmode="numeric"
+              autocomplete="cc-csc"
+              [placeholder]="i18n.translate(textKeys.payment.page.cvvPlaceholder)"
+            />
           </label>
         </div>
       </form>
@@ -66,8 +85,8 @@
   </div>
 
   <section class="payment-page__notice" aria-labelledby="payment-notice-title">
-    <h2 id="payment-notice-title">Ten en cuenta</h2>
-    <p>Este proyecto es una experiencia demostrativa. No procesa pagos, reservas ni datos bancarios reales.</p>
+    <h2 id="payment-notice-title">{{ i18n.translate(textKeys.payment.page.noticeTitle) }}</h2>
+    <p>{{ i18n.translate(textKeys.payment.page.noticeDescription) }}</p>
   </section>
 
   <ds-bottom-summary [config]="bottomSummaryConfig()" (actionClicked)="payBooking()" />

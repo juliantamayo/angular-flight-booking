@@ -28,15 +28,6 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'fare',
-    title: 'Seleccionar tarifa | SkyBooking',
-    canActivate: [bookingSearchGuard, selectedFlightGuard],
-    loadComponent: () =>
-      import('./features/fares/pages/fare-selection-page/fare-selection-page.component').then(
-        (m) => m.FareSelectionPage,
-      ),
-  },
-  {
     path: 'passengers',
     title: 'Datos de pasajeros | SkyBooking',
     canActivate: [bookingSearchGuard, selectedFlightGuard, selectedFareGuard],
@@ -68,15 +59,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/payment/pages/payment-page/payment-page.component').then(
         (m) => m.PaymentPage,
-      ),
-  },
-  {
-    path: 'review',
-    title: 'Revisar compra | SkyBooking',
-    canActivate: [bookingSearchGuard, selectedFlightGuard, selectedFareGuard, passengersGuard],
-    loadComponent: () =>
-      import('./features/review/pages/booking-review-page/booking-review-page.component').then(
-        (m) => m.BookingReviewPage,
       ),
   },
   {

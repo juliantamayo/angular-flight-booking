@@ -1,14 +1,16 @@
 <section class="passenger-page" aria-labelledby="passenger-page-title">
   <div class="passenger-page__heading">
-    <p class="passenger-page__eyebrow">Paso 2 de 5</p>
-    <h1 id="passenger-page-title">Datos de pasajeros</h1>
+    <app-booking-step-indicator />
+    <h1 id="passenger-page-title">{{ i18n.translate(textKeys.passengers.page.title) }}</h1>
   </div>
 
   <form class="passenger-page__form" [formGroup]="form" (ngSubmit)="submitPassengers()">
     <section class="passenger-page__section" aria-labelledby="passenger-list-title">
       <div class="passenger-page__section-heading">
-        <h2 id="passenger-list-title">Viajeros</h2>
-        <p>Los nombres deben coincidir con el documento de viaje.</p>
+        <h2 id="passenger-list-title">
+          {{ i18n.translate(textKeys.passengers.page.travelersTitle) }}
+        </h2>
+        <p>{{ i18n.translate(textKeys.passengers.page.travelersDescription) }}</p>
       </div>
 
       <div class="passenger-page__passenger-list" formArrayName="passengers">

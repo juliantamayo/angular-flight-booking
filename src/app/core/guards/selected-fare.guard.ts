@@ -7,5 +7,5 @@ export const selectedFareGuard: CanActivateFn = () => {
   const store = inject(BookingStore);
   const router = inject(Router);
 
-  return store.hasSelectedFare() ? true : router.createUrlTree(['/fare']);
+  return store.hasSelectedFare() ? true : router.createUrlTree(['/flights']);
 };

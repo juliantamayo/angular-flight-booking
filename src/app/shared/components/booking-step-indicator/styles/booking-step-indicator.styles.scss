@@ -1,0 +1,14 @@
+:host {
+  color: var(--color-primary);
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.booking-step-indicator {
+  align-items: center;
+  display: inline-flex;
+  gap: var(--space-1);
+  letter-spacing: 0;
+}

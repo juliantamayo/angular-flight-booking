@@ -4,6 +4,7 @@ import { DsBottomSummary, DsBottomSummaryConfig } from '@skybooking/design-syste
 
 import { SeatColumn, SelectedSeat } from '../../../../core/models/booking-flow.model';
 import { BookingStore } from '../../../../core/state/booking.store';
+import { BookingStepIndicator } from '../../../../shared/components/booking-step-indicator/booking-step-indicator.component';
 
 interface SeatOption {
   readonly column: SeatColumn;
@@ -17,7 +18,7 @@ interface SeatOption {
 
 @Component({
   selector: 'app-seats-page',
-  imports: [DsBottomSummary],
+  imports: [BookingStepIndicator, DsBottomSummary],
   templateUrl: './seats-page.component.html',
   styleUrl: './styles/seats-page.styles.scss',
 })

@@ -2,25 +2,30 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { DsBottomSummary, DsBottomSummaryConfig } from '@skybooking/design-system';
 
+import { I18nService } from '../../../../core/i18n/i18n.service';
+import { TEXT_KEYS, TranslationKey } from '../../../../core/i18n/text-keys';
 import { ServiceCode, SelectedService } from '../../../../core/models/booking-flow.model';
 import { BookingStore } from '../../../../core/state/booking.store';
+import { BookingStepIndicator } from '../../../../shared/components/booking-step-indicator/booking-step-indicator.component';
 
 interface ServiceOption {
   readonly code: ServiceCode;
-  readonly description: string;
-  readonly name: string;
+  readonly descriptionKey: TranslationKey;
+  readonly nameKey: TranslationKey;
   readonly price: number;
 }
 
 @Component({
   selector: 'app-services-page',
-  imports: [DsBottomSummary],
+  imports: [BookingStepIndicator, DsBottomSummary],
   templateUrl: './services-page.component.html',
   styleUrl: './styles/services-page.styles.scss',
 })
 export class ServicesPage {
+  protected readonly i18n = inject(I18nService);
   private readonly router = inject(Router);
   private readonly store = inject(BookingStore);
+  protected readonly textKeys = TEXT_KEYS;
 
   readonly selectedFare = this.store.selectedFare;
   readonly selectedFlight = this.store.selectedFlight;
@@ -29,26 +34,26 @@ export class ServicesPage {
   readonly services: readonly ServiceOption[] = [
     {
       code: 'extra-bag',
-      description: 'Agrega una maleta de bodega de 23 kg para tu viaje.',
-      name: 'Equipaje adicional',
+      descriptionKey: TEXT_KEYS.services.options.extraBagDescription,
+      nameKey: TEXT_KEYS.services.options.extraBagName,
       price: 89000,
     },
     {
       code: 'priority-boarding',
-      description: 'Aborda antes y manten tus objetos esenciales cerca.',
-      name: 'Embarque prioritario',
+      descriptionKey: TEXT_KEYS.services.options.priorityBoardingDescription,
+      nameKey: TEXT_KEYS.services.options.priorityBoardingName,
       price: 36000,
     },
     {
       code: 'travel-insurance',
-      description: 'Proteccion basica para imprevistos antes y durante el viaje.',
-      name: 'Asistencia de viaje',
+      descriptionKey: TEXT_KEYS.services.options.travelInsuranceDescription,
+      nameKey: TEXT_KEYS.services.options.travelInsuranceName,
       price: 52000,
     },
     {
       code: 'flex-assistance',
-      description: 'Soporte preferencial para cambios o dudas sobre tu reserva.',
-      name: 'Soporte flexible',
+      descriptionKey: TEXT_KEYS.services.options.flexAssistanceDescription,
+      nameKey: TEXT_KEYS.services.options.flexAssistanceName,
       price: 42000,
     },
   ];
@@ -63,36 +68,42 @@ export class ServicesPage {
       (this.selectedFare()?.price ?? 0) + (this.selectedSeats()?.total ?? 0) + this.servicesTotal(),
   );
   readonly bottomSummaryConfig = computed<DsBottomSummaryConfig>(() => ({
-    actionLabel: 'Continuar',
-    summaryAriaLabel: 'Ver resumen de compra',
+    actionLabel: this.i18n.translate(this.textKeys.services.page.continue),
+    summaryAriaLabel: this.i18n.translate(this.textKeys.services.summary.ariaLabel),
     summarySections: [
       {
-        title: 'Vuelo',
+        title: this.i18n.translate(this.textKeys.services.summary.flight),
         items: [
           {
             label: this.flightRouteLabel(),
             meta: this.flightMetaLabel(),
-            value: this.selectedFlight()?.flightNumber ?? 'Pendiente',
+            value:
+              this.selectedFlight()?.flightNumber ??
+              this.i18n.translate(this.textKeys.services.summary.pending),
           },
           {
-            label: 'Tarifa',
-            meta: this.selectedFare()?.cabin === 'business' ? 'Business Class' : 'Economy',
-            value: this.selectedFare()?.name ?? 'Pendiente',
+            label: this.i18n.translate(this.textKeys.services.summary.fare),
+            meta:
+              this.selectedFare()?.cabin === 'business'
+                ? this.i18n.translate(this.textKeys.services.summary.cabinBusiness)
+                : this.i18n.translate(this.textKeys.services.summary.cabinEconomy),
+            value:
+              this.selectedFare()?.name ?? this.i18n.translate(this.textKeys.services.summary.pending),
           },
         ],
       },
       {
-        title: 'Asientos',
+        title: this.i18n.translate(this.textKeys.services.summary.seats),
         items: this.seatSummaryItems(),
       },
       {
-        title: 'Servicios',
+        title: this.i18n.translate(this.textKeys.services.summary.services),
         items: this.serviceSummaryItems(),
       },
     ],
-    summaryTitle: 'Resumen de compra',
+    summaryTitle: this.i18n.translate(this.textKeys.services.summary.title),
     total: this.formatCurrency(this.reservationTotal()),
-    totalLabel: 'Total de tu reserva:',
+    totalLabel: this.i18n.translate(this.textKeys.services.page.totalLabel),
   }));
 
   isSelected(code: ServiceCode): boolean {
@@ -115,7 +126,7 @@ export class ServicesPage {
     this.store.saveServices({
       selectedServices: this.selectedServices().map((service): SelectedService => ({
         code: service.code,
-        name: service.name,
+        name: this.i18n.translate(service.nameKey),
         price: service.price,
       })),
       total: this.servicesTotal(),
@@ -135,7 +146,9 @@ export class ServicesPage {
   private flightRouteLabel(): string {
     const flight = this.selectedFlight();
 
-    return flight ? `${flight.origin} a ${flight.destination}` : 'Vuelo seleccionado';
+    return flight
+      ? `${flight.origin} a ${flight.destination}`
+      : this.i18n.translate(this.textKeys.services.summary.selectedFlightFallback);
   }
 
   private flightMetaLabel(): string {
@@ -143,7 +156,7 @@ export class ServicesPage {
 
     return flight
       ? `${flight.departureTime} - ${flight.arrivalTime}, ${this.durationLabel(flight.durationMinutes)}`
-      : 'Pendiente';
+      : this.i18n.translate(this.textKeys.services.summary.pending);
   }
 
   private seatSummaryItems(): readonly { label: string; meta?: string; value: string }[] {
@@ -152,14 +165,14 @@ export class ServicesPage {
     if (!seats.length) {
       return [
         {
-          label: 'Seleccion',
-          value: 'Sin asientos',
+          label: this.i18n.translate(this.textKeys.services.summary.seatSelection),
+          value: this.i18n.translate(this.textKeys.services.summary.noSeats),
         },
       ];
     }
 
     return seats.map((seat) => ({
-      label: `Pasajero ${seat.passengerIndex + 1}`,
+      label: `${this.i18n.translate(this.textKeys.services.summary.passenger)} ${seat.passengerIndex + 1}`,
       meta: this.formatCurrency(seat.price),
       value: seat.label,
     }));
@@ -169,14 +182,14 @@ export class ServicesPage {
     if (!this.selectedServices().length) {
       return [
         {
-          label: 'Servicios adicionales',
-          value: 'Sin agregar',
+          label: this.i18n.translate(this.textKeys.services.page.title),
+          value: this.i18n.translate(this.textKeys.services.summary.noServices),
         },
       ];
     }
 
     return this.selectedServices().map((service) => ({
-      label: service.name,
+      label: this.i18n.translate(service.nameKey),
       value: this.formatCurrency(service.price),
     }));
   }

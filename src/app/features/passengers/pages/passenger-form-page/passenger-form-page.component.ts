@@ -3,21 +3,26 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { DsBottomSummary, DsBottomSummaryConfig } from '@skybooking/design-system';
 
+import { I18nService } from '../../../../core/i18n/i18n.service';
+import { TEXT_KEYS, TranslationKey } from '../../../../core/i18n/text-keys';
 import { PassengerInfo } from '../../../../core/models/booking-flow.model';
 import { BookingStore } from '../../../../core/state/booking.store';
+import { BookingStepIndicator } from '../../../../shared/components/booking-step-indicator/booking-step-indicator.component';
 import { BookingHolder } from '../../components/booking-holder/booking-holder.component';
 import { PersonalInformation } from '../../components/personal-information/personal-information.component';
 
 @Component({
   selector: 'app-passenger-form-page',
-  imports: [BookingHolder, DsBottomSummary, PersonalInformation, ReactiveFormsModule],
+  imports: [BookingHolder, BookingStepIndicator, DsBottomSummary, PersonalInformation, ReactiveFormsModule],
   templateUrl: './passenger-form-page.component.html',
   styleUrl: './styles/passenger-form-page.styles.scss',
 })
 export class PassengerFormPage {
   private readonly formBuilder = inject(NonNullableFormBuilder);
+  protected readonly i18n = inject(I18nService);
   private readonly router = inject(Router);
   private readonly store = inject(BookingStore);
+  protected readonly textKeys = TEXT_KEYS;
 
   readonly search = this.store.search;
   readonly selectedFare = this.store.selectedFare;
@@ -31,9 +36,9 @@ export class PassengerFormPage {
     passengers: this.formBuilder.array(this.passengerLabels.map((label) => this.createPassengerGroup(label.type))),
   });
   readonly bottomSummaryConfig = computed<DsBottomSummaryConfig>(() => ({
-    actionLabel: 'Continuar',
+    actionLabel: this.i18n.translate(this.textKeys.passengers.page.continue),
     total: this.formatCurrency(this.selectedFare()?.price ?? 0),
-    totalLabel: 'Total de tu reserva:',
+    totalLabel: this.i18n.translate(this.textKeys.passengers.page.totalLabel),
   }));
 
   @ViewChild('bookingHolderSection') private bookingHolderSection?: ElementRef<HTMLElement>;
@@ -61,7 +66,13 @@ export class PassengerFormPage {
   }
 
   passengerTitle(index: number): string {
-    return this.passengerLabels[index]?.label ?? `Pasajero ${index + 1}`;
+    const passenger = this.passengerLabels[index];
+
+    if (!passenger) {
+      return `${this.i18n.translate(this.textKeys.passengers.page.fallbackPassenger)} ${index + 1}`;
+    }
+
+    return `${this.passengerTypeLabel(passenger.type)} ${index + 1}`;
   }
 
   isPassengerExpanded(index: number): boolean {
@@ -103,23 +114,33 @@ export class PassengerFormPage {
     });
   }
 
-  private buildPassengerLabels(): Array<{ label: string; type: PassengerInfo['type'] }> {
+  private buildPassengerLabels(): Array<{ type: PassengerInfo['type'] }> {
     const passengers = this.search()?.passengers;
-    const labels: Array<{ label: string; type: PassengerInfo['type'] }> = [];
+    const labels: Array<{ type: PassengerInfo['type'] }> = [];
 
     for (let index = 0; index < (passengers?.adults ?? 1); index += 1) {
-      labels.push({ label: `Adulto ${index + 1}`, type: 'adult' });
+      labels.push({ type: 'adult' });
     }
 
     for (let index = 0; index < (passengers?.children ?? 0); index += 1) {
-      labels.push({ label: `Nino ${index + 1}`, type: 'child' });
+      labels.push({ type: 'child' });
     }
 
     for (let index = 0; index < (passengers?.infants ?? 0); index += 1) {
-      labels.push({ label: `Infante ${index + 1}`, type: 'infant' });
+      labels.push({ type: 'infant' });
     }
 
     return labels;
+  }
+
+  private passengerTypeLabel(type: PassengerInfo['type']): string {
+    const keyByType: Record<PassengerInfo['type'], TranslationKey> = {
+      adult: this.textKeys.passengers.page.adult,
+      child: this.textKeys.passengers.page.child,
+      infant: this.textKeys.passengers.page.infant,
+    };
+
+    return this.i18n.translate(keyByType[type]);
   }
 
   private expandInvalidPassengers(): void {

@@ -1,6 +1,6 @@
 <section class="recent-searches" aria-labelledby="recent-searches-title">
   <div class="recent-searches__heading">
-    <h2 id="recent-searches-title">Busquedas recientes</h2>
+    <h2 id="recent-searches-title">{{ i18n.translate(textKeys.search.recentSearchesTitle) }}</h2>
   </div>
 
   <div class="recent-searches__list">
@@ -12,18 +12,15 @@
         <button
           class="recent-searches__action"
           type="button"
-          [attr.aria-label]="
-            'Buscar vuelos de ' +
-            search.origin +
-            ' a ' +
-            search.destination +
-            ', ' +
-            dateSummary(search)
-          "
+          [attr.aria-label]="selectSearchAriaLabel(search)"
           (click)="selectSearch(search)"
         >
           <span class="recent-searches__info">
-            <strong>{{ search.origin }} a {{ search.destination }}</strong>
+            <strong>
+              {{ search.origin }}
+              {{ i18n.translate(textKeys.search.recentSearchesRouteConnector) }}
+              {{ search.destination }}
+            </strong>
             <span>{{ dateSummary(search) }}</span>
             <span>{{ passengerSummary(search) }}</span>
           </span>
@@ -32,14 +29,7 @@
         <button
           class="recent-searches__remove"
           type="button"
-          [attr.aria-label]="
-            'Eliminar busqueda reciente de ' +
-            search.origin +
-            ' a ' +
-            search.destination +
-            ', ' +
-            dateSummary(search)
-          "
+          [attr.aria-label]="removeSearchAriaLabel(search)"
           (click)="removeSearch(search)"
         >
           x
