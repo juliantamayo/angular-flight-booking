@@ -1,24 +1,24 @@
 <section class="selected-flight" [attr.aria-label]="segmentTitle">
   <div class="selected-flight__heading">
     <div class="selected-flight__title-group">
-      <span class="selected-flight__icon" aria-hidden="true">&#9992;</span>
+      <ds-icon class="selected-flight__icon" name="plane" />
       <h2>{{ segmentTitle }}</h2>
       <span class="selected-flight__date">{{ date }}</span>
     </div>
     <button class="selected-flight__edit-button" type="button" (click)="editRequested.emit()">
-      Editar seleccion
+      {{ i18n.translate(textKeys.flights.editSelection) }}
     </button>
   </div>
 
   <article class="selected-flight__card">
-    <span class="selected-flight__check" aria-hidden="true">&#10003;</span>
+    <ds-icon class="selected-flight__check" name="check" />
 
     <div class="selected-flight__time">
       <strong>{{ flight.departureTime }}</strong>
       <span>{{ origin }}</span>
     </div>
     <div class="selected-flight__path">
-      <span>Directo</span>
+      <span>{{ i18n.translate(textKeys.flights.directFlight) }}</span>
       <span>{{ flight.operator }}</span>
     </div>
     <div class="selected-flight__time selected-flight__time--arrival">

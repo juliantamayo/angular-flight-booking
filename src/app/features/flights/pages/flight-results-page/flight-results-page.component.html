@@ -5,7 +5,10 @@
   @if (search(); as currentSearch) {
     <header class="results-page__modify-header">
       <div class="results-page__modify-bar">
-        <dl class="results-page__modify-summary" [attr.aria-label]="i18n.translate(textKeys.flights.currentSearchAria)">
+        <dl
+          class="results-page__modify-summary"
+          [attr.aria-label]="i18n.translate(textKeys.flights.currentSearchAria)"
+        >
           <div class="results-page__modify-summary-item">
             <dt>{{ i18n.translate(textKeys.flights.route) }}</dt>
             <dd>
@@ -31,7 +34,7 @@
           aria-controls="modify-search-panel"
           (click)="toggleModify()"
         >
-          <span aria-hidden="true">&#9998;</span>
+          <ds-icon name="pencil" />
           {{ i18n.translate(textKeys.flights.modify) }}
         </button>
       </div>
@@ -48,7 +51,9 @@
 
     @if (outboundSelection(); as selectedOutbound) {
       <section class="results-page__journey-summary" aria-labelledby="journey-summary-title">
-        <h1 id="journey-summary-title">{{ i18n.translate(textKeys.flights.journeySummaryTitle) }}</h1>
+        <h1 id="journey-summary-title">
+          {{ i18n.translate(textKeys.flights.journeySummaryTitle) }}
+        </h1>
 
         <selected-flight-summary
           [segmentTitle]="segmentTitle(currentSearch, 'outbound')"
@@ -80,7 +85,7 @@
     ) {
       <div class="results-page__route-heading">
         <div class="results-page__route-title-group">
-          <span class="results-page__route-icon" aria-hidden="true">&#9992;</span>
+          <ds-icon class="results-page__route-icon" name="plane" />
           @if (!outboundSelection()) {
             <h1 id="results-title" class="results-page__route-title">
               {{ directionTitle(currentSearch) }}
@@ -96,7 +101,10 @@
         </div>
       </div>
 
-      <div class="results-page__flight-list" [attr.aria-label]="i18n.translate(textKeys.flights.availableFlightsAria)">
+      <div
+        class="results-page__flight-list"
+        [attr.aria-label]="i18n.translate(textKeys.flights.availableFlightsAria)"
+      >
         @for (flight of flights; track flight.id) {
           <flight-card
             [flight]="flight"
@@ -111,10 +119,7 @@
     }
 
     @if (canContinue()) {
-      <ds-bottom-summary
-        [config]="bottomSummaryConfig()"
-        (actionClicked)="continueBooking()"
-      />
+      <ds-bottom-summary [config]="bottomSummaryConfig()" (actionClicked)="continueBooking()" />
     }
   }
 </section>

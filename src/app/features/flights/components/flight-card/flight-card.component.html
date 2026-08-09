@@ -19,7 +19,9 @@
       <span class="flight-card__timeline-rule" aria-hidden="true">
         <span>&#9992;</span>
       </span>
-      <span class="flight-card__operator">Operado por {{ flight.operator }}</span>
+      <span class="flight-card__operator">
+        {{ i18n.translate(textKeys.flights.operatedBy) }} {{ flight.operator }}
+      </span>
     </span>
 
     <span class="flight-card__time-block flight-card__time-block--arrival">
@@ -28,7 +30,7 @@
     </span>
 
     <span class="flight-card__price-block">
-      <span>Desde</span>
+      <span>{{ i18n.translate(textKeys.flights.fromPrice) }}</span>
       <strong>{{ formatCurrency(lowestFare()) }}</strong>
     </span>
   </button>
@@ -56,18 +58,20 @@
               [class.flight-card__fare-card--highlighted]="fare.highlighted"
               [attr.data-fare]="fare.code"
               [attr.data-cabin]="fare.cabin"
-              [attr.aria-label]="'Seleccionar tarifa ' + cabinLabel(fare.cabin) + ' ' + fare.name + ' por ' + formatCurrency(fare.price)"
+              [attr.aria-label]="selectFareAriaLabel(fare)"
               [disabled]="!isFarePanelVisible()"
               type="button"
               (click)="fareSelected.emit(fare)"
             >
               @if (fare.highlighted) {
-                <span class="flight-card__fare-badge">Mejor opcion</span>
+                <span class="flight-card__fare-badge">
+                  {{ i18n.translate(textKeys.flights.bestOption) }}
+                </span>
               }
 
               <span class="flight-card__fare-name">
                 @if (fare.cabin === 'business') {
-                  <small>Business</small>
+                  <small>{{ i18n.translate(textKeys.flights.cabinBusinessShort) }}</small>
                 }
                 {{ fare.name }}
               </span>
@@ -92,7 +96,7 @@
 
               <span class="flight-card__fare-price">
                 {{ formatCurrency(fare.price) }}
-                <small>Precio por pasajero</small>
+                <small>{{ i18n.translate(textKeys.flights.pricePerPassenger) }}</small>
               </span>
             </button>
           }

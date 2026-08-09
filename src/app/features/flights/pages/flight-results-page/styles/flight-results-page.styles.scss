@@ -112,8 +112,9 @@
 }
 
 .results-page__route-icon {
+  --ds-icon-size: 1.25rem;
+
   color: var(--color-ink);
-  font-size: 1.25rem;
 }
 
 .results-page__route-title {

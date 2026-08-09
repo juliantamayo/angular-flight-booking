@@ -1,6 +1,7 @@
 export interface DsBottomSummaryConfig {
   readonly actionAriaLabel?: string;
   readonly actionLabel: string;
+  readonly closeSummaryAriaLabel?: string;
   readonly footerGapPx?: number;
   readonly footerSelector?: string;
   readonly summaryAriaLabel?: string;

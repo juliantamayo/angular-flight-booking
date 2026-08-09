@@ -11,11 +11,12 @@ import {
 } from '@angular/core';
 
 import { DsButton, DsButtonConfig } from '../ds-button';
+import { DsIcon } from '../ds-icon';
 import { DsBottomSummaryConfig, DsBottomSummarySection } from './bottom-summary-config.model';
 
 @Component({
   selector: 'ds-bottom-summary',
-  imports: [DsButton],
+  imports: [DsButton, DsIcon],
   templateUrl: './ds-bottom-summary.component.html',
   styleUrl: './styles/ds-bottom-summary.styles.scss',
 })

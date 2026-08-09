@@ -1,13 +1,20 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { DsIcon } from '@skybooking/design-system';
 
+import { I18nService } from '../../../../core/i18n/i18n.service';
+import { TEXT_KEYS } from '../../../../core/i18n/text-keys';
 import { FlightFare, FlightOption } from '../../models/flight-option.model';
 
 @Component({
   selector: 'selected-flight-summary',
+  imports: [DsIcon],
   templateUrl: './selected-flight-summary.component.html',
   styleUrl: './styles/selected-flight-summary.styles.scss',
 })
 export class SelectedFlightSummary {
+  protected readonly i18n = inject(I18nService);
+  protected readonly textKeys = TEXT_KEYS;
+
   @Input({ required: true }) segmentTitle = '';
   @Input({ required: true }) date = '';
   @Input({ required: true }) flight!: FlightOption;
@@ -25,15 +32,4 @@ export class SelectedFlightSummary {
     }).format(value);
   }
 
-  upgradeFareName(): string {
-    if (this.fare.code === 'basic') {
-      return 'Classic';
-    }
-
-    if (this.fare.code === 'classic') {
-      return 'Flex';
-    }
-
-    return 'Business';
-  }
 }

@@ -7,27 +7,31 @@
     <button
       class="ds-bottom-summary__backdrop"
       type="button"
-      aria-label="Cerrar resumen de compra"
+      [attr.aria-label]="config.closeSummaryAriaLabel"
       (click)="toggleSummary()"
     ></button>
   }
 
   <div class="ds-bottom-summary__summary">
-    <button
-      class="ds-bottom-summary__total"
-      type="button"
-      [disabled]="!hasSummary"
-      [attr.aria-expanded]="hasSummary ? isSummaryOpen() : null"
-      [attr.aria-controls]="hasSummary ? 'ds-bottom-summary-panel' : null"
-      [attr.aria-label]="config.summaryAriaLabel ?? 'Ver resumen de compra'"
-      (click)="toggleSummary()"
-    >
-      <span class="ds-bottom-summary__cart-icon" aria-hidden="true"></span>
-      <strong>{{ config.total }}</strong>
-      @if (hasSummary) {
+    @if (hasSummary) {
+      <button
+        class="ds-bottom-summary__total ds-bottom-summary__total--button"
+        type="button"
+        [attr.aria-expanded]="isSummaryOpen()"
+        aria-controls="ds-bottom-summary-panel"
+        [attr.aria-label]="config.summaryAriaLabel"
+        (click)="toggleSummary()"
+      >
+        <ds-icon class="ds-bottom-summary__cart-icon" name="shopping-cart" />
+        <strong>{{ config.total }}</strong>
         <span class="ds-bottom-summary__chevron" aria-hidden="true"></span>
-      }
-    </button>
+      </button>
+    } @else {
+      <div class="ds-bottom-summary__total ds-bottom-summary__total--text">
+        <span>{{ config.totalLabel }}</span>
+        <strong>{{ config.total }}</strong>
+      </div>
+    }
 
     @if (hasSummary && isSummaryOpen()) {
       <section
@@ -36,7 +40,7 @@
         aria-labelledby="ds-bottom-summary-title"
       >
         <h2 class="ds-bottom-summary__panel-title" id="ds-bottom-summary-title">
-          {{ config.summaryTitle ?? 'Resumen de compra' }}
+          {{ config.summaryTitle }}
         </h2>
 
         @for (section of summarySections; track section.title) {

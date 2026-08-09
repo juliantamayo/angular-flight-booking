@@ -39,27 +39,37 @@
 .ds-bottom-summary__total {
   align-items: center;
   background: var(--bottom-summary-panel-background);
-  border: 1px solid var(--color-text-primary);
-  border-radius: var(--radius-pill);
   color: var(--color-text-primary);
-  cursor: pointer;
-  display: inline-flex;
   gap: var(--space-2);
-  justify-content: center;
   min-block-size: 3.25rem;
   min-inline-size: 12rem;
-  padding: 0 var(--space-5);
   text-align: start;
   white-space: nowrap;
 }
 
-.ds-bottom-summary__total:disabled {
-  cursor: default;
+.ds-bottom-summary__total--button {
+  border: 1px solid var(--color-text-primary);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  padding: 0 var(--space-5);
 }
 
-.ds-bottom-summary__total:focus-visible {
+.ds-bottom-summary__total--button:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
+}
+
+.ds-bottom-summary__total--text {
+  display: grid;
+  gap: var(--space-1);
+  justify-items: start;
+}
+
+.ds-bottom-summary__total--text span {
+  color: var(--color-muted);
+  font-size: 0.875rem;
 }
 
 .ds-bottom-summary__total strong {
@@ -67,33 +77,12 @@
   line-height: 1;
 }
 
+.ds-bottom-summary__total--text strong {
+  font-size: 1.75rem;
+}
+
 .ds-bottom-summary__cart-icon {
-  block-size: 1rem;
-  display: block;
-  inline-size: 1rem;
-  position: relative;
-}
-
-.ds-bottom-summary__cart-icon::before {
-  border: 2px solid currentColor;
-  border-block-start: 0;
-  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
-  content: '';
-  inset-block-start: 0.35rem;
-  inset-inline: 0.2rem;
-  position: absolute;
-}
-
-.ds-bottom-summary__cart-icon::after {
-  border-block-start: 2px solid currentColor;
-  border-inline-start: 2px solid currentColor;
-  content: '';
-  height: 0.35rem;
-  inset-block-start: 0.1rem;
-  inset-inline-start: 0.1rem;
-  position: absolute;
-  rotate: -20deg;
-  width: 0.35rem;
+  --ds-icon-size: 1rem;
 }
 
 .ds-bottom-summary__chevron {
@@ -106,7 +95,7 @@
   width: 0.55rem;
 }
 
-.ds-bottom-summary__total[aria-expanded='true'] .ds-bottom-summary__chevron {
+.ds-bottom-summary__total--button[aria-expanded='true'] .ds-bottom-summary__chevron {
   rotate: 135deg;
 }
 

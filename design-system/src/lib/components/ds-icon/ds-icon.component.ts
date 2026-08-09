@@ -1,20 +1,20 @@
-import { Component, computed, input, inject } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
-import { APP_ICONS, AppIconName } from '../../icons/app-icons';
+import { DS_ICONS, DsIconName } from './ds-icons';
 
 @Component({
-  selector: 'app-icon',
-  templateUrl: './app-icon.component.html',
-  styleUrl: './styles/app-icon.styles.scss',
+  selector: 'ds-icon',
+  templateUrl: './ds-icon.component.html',
+  styleUrl: './styles/ds-icon.styles.scss',
 })
-export class AppIcon {
+export class DsIcon {
   private readonly sanitizer = inject(DomSanitizer);
 
-  readonly name = input.required<AppIconName>();
+  readonly name = input.required<DsIconName>();
 
   readonly content = computed<SafeHtml>(() => {
-    const icon = APP_ICONS[this.name()];
+    const icon = DS_ICONS[this.name()];
     const markup = icon
       .map(([tag, attrs]) => {
         const attributes = Object.entries(attrs)

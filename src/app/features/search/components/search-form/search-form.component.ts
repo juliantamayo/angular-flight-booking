@@ -15,12 +15,11 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DsButton, DsButtonConfig } from '@skybooking/design-system';
+import { DsButton, DsButtonConfig, DsIcon } from '@skybooking/design-system';
 import { startWith } from 'rxjs';
 
 import { I18nService } from '../../../../core/i18n/i18n.service';
 import { TEXT_KEYS } from '../../../../core/i18n/text-keys';
-import { AppIcon } from '../../../../shared/components/app-icon/app-icon.component';
 import { AIRPORTS } from '../../data/airports.data';
 import { FlightSearch } from '../../models/flight-search.model';
 import {
@@ -31,7 +30,7 @@ import {
 
 @Component({
   selector: 'search-form',
-  imports: [AppIcon, DsButton, ReactiveFormsModule],
+  imports: [DsButton, DsIcon, ReactiveFormsModule],
   templateUrl: './search-form.component.html',
   styleUrl: './styles/search-form.styles.scss',
 })

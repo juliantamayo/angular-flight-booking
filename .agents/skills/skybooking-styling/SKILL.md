@@ -35,7 +35,7 @@ metadata:
 - Add BEM classes only to nodes that need styling, state, structure, or testing hooks.
 - Use mobile-first SCSS and keep existing breakpoints unless the design needs a new one.
 - Preserve accessibility affordances: visible focus states, `aria-*` attributes, labels, and live regions.
-- Use the shared `app-icon` component for UI iconography. Register new Lucide icons in `src/app/shared/icons/app-icons.ts` and consume them through `src/app/shared/components/app-icon`; do not use HTML entities, raw Unicode symbols, or ad hoc inline SVG for functional UI icons.
+- Use the shared `ds-icon` component for UI iconography. Register new Lucide icons in `design-system/src/lib/components/ds-icon/ds-icons.ts` and consume them through `ds-icon`; do not use HTML entities, raw Unicode symbols, or ad hoc inline SVG for functional UI icons.
 - After style or template changes, run `npm run build` and fix template, style budget, or CSS warnings.
 
 ## References

@@ -1,6 +1,6 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { DsBottomSummary, DsBottomSummaryConfig } from '@skybooking/design-system';
+import { DsBottomSummary, DsBottomSummaryConfig, DsIcon } from '@skybooking/design-system';
 
 import { I18nService } from '../../../../core/i18n/i18n.service';
 import { TEXT_KEYS } from '../../../../core/i18n/text-keys';
@@ -23,7 +23,7 @@ interface SelectedFlightFare {
 
 @Component({
   selector: 'app-flight-results-page',
-  imports: [DsBottomSummary, FlightCard, SearchForm, SelectedFlightSummary],
+  imports: [DsBottomSummary, DsIcon, FlightCard, SearchForm, SelectedFlightSummary],
   templateUrl: './flight-results-page.component.html',
   styleUrl: './styles/flight-results-page.styles.scss',
 })

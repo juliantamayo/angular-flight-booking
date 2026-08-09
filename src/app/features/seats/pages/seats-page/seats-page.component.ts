@@ -42,7 +42,7 @@ export class SeatsPage {
 
     return passengers.map((passenger, index) => {
       const name = `${passenger.firstName} ${passenger.lastName}`.trim();
-      return name || `Pasajero ${index + 1}`;
+      return name || `${this.i18n.translate(this.textKeys.seats.page.fallbackPassenger)} ${index + 1}`;
     });
   });
   readonly selectedSeats = computed(() =>
@@ -62,31 +62,39 @@ export class SeatsPage {
   readonly reservationTotal = computed(() => (this.selectedFare()?.price ?? 0) + this.seatsTotal());
   readonly bottomSummaryConfig = computed<DsBottomSummaryConfig>(() => ({
     actionLabel: this.i18n.translate(this.textKeys.common.continue),
-    summaryAriaLabel: 'Ver resumen de compra',
+    closeSummaryAriaLabel: this.i18n.translate(this.textKeys.common.purchaseSummaryCloseAriaLabel),
+    summaryAriaLabel: this.i18n.translate(this.textKeys.common.purchaseSummaryAriaLabel),
     summarySections: [
       {
-        title: 'Vuelo',
+        title: this.i18n.translate(this.textKeys.seats.summary.flight),
         items: [
           {
             label: this.flightRouteLabel(),
             meta: this.flightMetaLabel(),
-            value: this.selectedFlight()?.flightNumber ?? 'Pendiente',
+            value:
+              this.selectedFlight()?.flightNumber ??
+              this.i18n.translate(this.textKeys.seats.summary.pending),
           },
           {
-            label: 'Tarifa',
-            meta: this.selectedFare()?.cabin === 'business' ? 'Business Class' : 'Economy',
-            value: this.selectedFare()?.name ?? 'Pendiente',
+            label: this.i18n.translate(this.textKeys.seats.summary.fare),
+            meta:
+              this.selectedFare()?.cabin === 'business'
+                ? this.i18n.translate(this.textKeys.seats.summary.cabinBusiness)
+                : this.i18n.translate(this.textKeys.seats.summary.cabinEconomy),
+            value:
+              this.selectedFare()?.name ??
+              this.i18n.translate(this.textKeys.seats.summary.pending),
           },
         ],
       },
       {
-        title: 'Asientos',
+        title: this.i18n.translate(this.textKeys.seats.summary.seats),
         items: this.seatSummaryItems(),
       },
     ],
-    summaryTitle: 'Resumen de compra',
+    summaryTitle: this.i18n.translate(this.textKeys.common.purchaseSummaryTitle),
     total: this.formatCurrency(this.reservationTotal()),
-    totalLabel: 'Total de tu reserva:',
+    totalLabel: this.i18n.translate(this.textKeys.seats.summary.totalLabel),
   }));
 
   seat(row: number, column: SeatColumn): SeatOption {
@@ -122,18 +130,22 @@ export class SeatsPage {
 
   seatState(seat: SeatOption): string {
     if (seat.isOccupied) {
-      return 'Ocupado';
+      return this.i18n.translate(this.textKeys.seats.page.statusOccupied);
     }
 
     if (this.isSelectedByCurrentPassenger(seat)) {
-      return 'Seleccionado';
+      return this.i18n.translate(this.textKeys.seats.page.statusSelected);
     }
 
     if (this.isSelectedByAnotherPassenger(seat)) {
-      return 'Asignado';
+      return this.i18n.translate(this.textKeys.seats.page.statusAssigned);
     }
 
-    return seat.price ? this.formatCurrency(seat.price) : 'Sin costo';
+    return seat.price ? this.formatCurrency(seat.price) : this.i18n.translate(this.textKeys.seats.page.statusNoCost);
+  }
+
+  seatAriaLabel(seat: SeatOption): string {
+    return `${this.i18n.translate(this.textKeys.seats.page.seatAriaPrefix)} ${seat.label}, ${this.seatState(seat)}`;
   }
 
   selectedSeatForPassenger(index: number): SeatOption | undefined {
@@ -171,7 +183,9 @@ export class SeatsPage {
   private flightRouteLabel(): string {
     const flight = this.selectedFlight();
 
-    return flight ? `${flight.origin} a ${flight.destination}` : 'Vuelo seleccionado';
+    return flight
+      ? `${flight.origin} a ${flight.destination}`
+      : this.i18n.translate(this.textKeys.seats.summary.selectedFlightFallback);
   }
 
   private flightMetaLabel(): string {
@@ -179,15 +193,15 @@ export class SeatsPage {
 
     return flight
       ? `${flight.departureTime} - ${flight.arrivalTime}, ${this.durationLabel(flight.durationMinutes)}`
-      : 'Pendiente';
+      : this.i18n.translate(this.textKeys.seats.summary.pending);
   }
 
   private seatSummaryItems(): readonly { label: string; meta?: string; value: string }[] {
     if (!this.selectedSeats().length) {
       return [
         {
-          label: 'Seleccion',
-          value: 'Sin asientos',
+          label: this.i18n.translate(this.textKeys.seats.summary.seatSelection),
+          value: this.i18n.translate(this.textKeys.seats.summary.noSeats),
         },
       ];
     }
@@ -198,7 +212,7 @@ export class SeatsPage {
       return {
         label: passengerName,
         meta: selectedSeat ? this.formatCurrency(selectedSeat.price) : undefined,
-        value: selectedSeat?.label ?? 'Sin asiento',
+        value: selectedSeat?.label ?? this.i18n.translate(this.textKeys.seats.page.noSeat),
       };
     });
   }

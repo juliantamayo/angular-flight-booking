@@ -7,10 +7,13 @@ import {
   Output,
   SimpleChanges,
   computed,
+  inject,
   signal,
 } from '@angular/core';
 import { DsSegmentedControl, DsSegmentedControlConfig } from '@skybooking/design-system';
 
+import { I18nService } from '../../../../core/i18n/i18n.service';
+import { TEXT_KEYS } from '../../../../core/i18n/text-keys';
 import { FareCabin, FlightFare, FlightOption } from '../../models/flight-option.model';
 
 @Component({
@@ -20,6 +23,9 @@ import { FareCabin, FlightFare, FlightOption } from '../../models/flight-option.
   styleUrl: './styles/flight-card.styles.scss',
 })
 export class FlightCard {
+  protected readonly i18n = inject(I18nService);
+  protected readonly textKeys = TEXT_KEYS;
+
   private readonly farePanelTransitionMs = 280;
   private closeTimer: ReturnType<typeof setTimeout> | null = null;
   private openTimer: ReturnType<typeof setTimeout> | null = null;
@@ -43,10 +49,14 @@ export class FlightCard {
     this.flight.fares.some((fare) => fare.cabin === 'business'),
   );
   readonly cabinControlConfig = computed<DsSegmentedControlConfig<FareCabin>>(() => ({
-    ariaLabel: 'Cabina',
+    ariaLabel: this.i18n.translate(this.textKeys.flights.cabinAriaLabel),
     options: [
-      { label: 'Economy', value: 'economy' },
-      { disabled: !this.hasBusinessFares(), label: 'Business Class', value: 'business' },
+      { label: this.i18n.translate(this.textKeys.flights.cabinEconomy), value: 'economy' },
+      {
+        disabled: !this.hasBusinessFares(),
+        label: this.i18n.translate(this.textKeys.flights.cabinBusiness),
+        value: 'business',
+      },
     ],
     size: 'md',
     value: this.activeCabin(),
@@ -78,7 +88,16 @@ export class FlightCard {
   }
 
   stopsLabel(stops: number): string {
-    return stops === 0 ? 'Directo' : `${stops} escala(s)`;
+    if (stops === 0) {
+      return this.i18n.translate(this.textKeys.flights.directFlight);
+    }
+
+    const stopLabel =
+      stops === 1
+        ? this.i18n.translate(this.textKeys.flights.stopSingular)
+        : this.i18n.translate(this.textKeys.flights.stopPlural);
+
+    return `${stops} ${stopLabel}`;
   }
 
   selectCabin(cabin: FareCabin): void {
@@ -86,7 +105,19 @@ export class FlightCard {
   }
 
   cabinLabel(cabin: FareCabin): string {
-    return cabin === 'business' ? 'Business Class' : 'Economy';
+    return cabin === 'business'
+      ? this.i18n.translate(this.textKeys.flights.cabinBusiness)
+      : this.i18n.translate(this.textKeys.flights.cabinEconomy);
+  }
+
+  selectFareAriaLabel(fare: FlightFare): string {
+    return [
+      this.i18n.translate(this.textKeys.flights.selectFareAriaPrefix),
+      this.cabinLabel(fare.cabin),
+      fare.name,
+      this.i18n.translate(this.textKeys.flights.selectFareAriaPriceConnector),
+      this.formatCurrency(fare.price),
+    ].join(' ');
   }
 
   formatCurrency(value: number): string {

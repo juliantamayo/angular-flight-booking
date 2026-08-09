@@ -69,7 +69,8 @@ export class ServicesPage {
   );
   readonly bottomSummaryConfig = computed<DsBottomSummaryConfig>(() => ({
     actionLabel: this.i18n.translate(this.textKeys.common.continue),
-    summaryAriaLabel: this.i18n.translate(this.textKeys.services.summary.ariaLabel),
+    closeSummaryAriaLabel: this.i18n.translate(this.textKeys.common.purchaseSummaryCloseAriaLabel),
+    summaryAriaLabel: this.i18n.translate(this.textKeys.common.purchaseSummaryAriaLabel),
     summarySections: [
       {
         title: this.i18n.translate(this.textKeys.services.summary.flight),
@@ -101,7 +102,7 @@ export class ServicesPage {
         items: this.serviceSummaryItems(),
       },
     ],
-    summaryTitle: this.i18n.translate(this.textKeys.services.summary.title),
+    summaryTitle: this.i18n.translate(this.textKeys.common.purchaseSummaryTitle),
     total: this.formatCurrency(this.reservationTotal()),
     totalLabel: this.i18n.translate(this.textKeys.services.page.totalLabel),
   }));
