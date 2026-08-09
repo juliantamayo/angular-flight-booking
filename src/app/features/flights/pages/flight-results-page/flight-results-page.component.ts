@@ -63,9 +63,9 @@ export class FlightResultsPage implements OnInit {
     return (outbound + returnFare) * this.passengerTotal();
   });
   readonly bottomSummaryConfig = computed<DsBottomSummaryConfig>(() => ({
-    actionLabel: 'Continuar',
+    actionLabel: this.i18n.translate(this.textKeys.common.continue),
     total: this.formatCurrency(this.reservationTotal()),
-    totalLabel: 'Total de tu reserva:',
+    totalLabel: this.i18n.translate(this.textKeys.flights.totalLabel),
   }));
 
   ngOnInit(): void {
@@ -91,8 +91,12 @@ export class FlightResultsPage implements OnInit {
 
   passengerSummary(): string {
     const total = this.passengerTotal();
+    const passengerLabel =
+      total === 1
+        ? this.i18n.translate(this.textKeys.flights.passengerSingular)
+        : this.i18n.translate(this.textKeys.flights.passengerPlural);
 
-    return total === 1 ? '1 Adulto' : `${total} Pasajeros`;
+    return `${total} ${passengerLabel}`;
   }
 
   toggleModify(): void {
@@ -196,8 +200,8 @@ export class FlightResultsPage implements OnInit {
     const destination = this.airportCity(this.selectedDestination(search, this.activeDirection()));
 
     return this.activeDirection() === 'outbound'
-      ? `Vuelo de ida ${origin} a ${destination}`
-      : `Vuelo de vuelta ${origin} a ${destination}`;
+      ? `${this.i18n.translate(this.textKeys.flights.outboundTitle)} ${origin} ${this.i18n.translate(this.textKeys.flights.to)} ${destination}`
+      : `${this.i18n.translate(this.textKeys.flights.returnTitle)} ${origin} ${this.i18n.translate(this.textKeys.flights.to)} ${destination}`;
   }
 
   segmentTitle(search: FlightSearch, direction: FlightDirection): string {
@@ -205,8 +209,8 @@ export class FlightResultsPage implements OnInit {
     const destination = this.airportCity(this.selectedDestination(search, direction));
 
     return direction === 'outbound'
-      ? `Vuelo de ida ${origin} a ${destination}`
-      : `Vuelo de vuelta ${origin} a ${destination}`;
+      ? `${this.i18n.translate(this.textKeys.flights.outboundTitle)} ${origin} ${this.i18n.translate(this.textKeys.flights.to)} ${destination}`
+      : `${this.i18n.translate(this.textKeys.flights.returnTitle)} ${origin} ${this.i18n.translate(this.textKeys.flights.to)} ${destination}`;
   }
 
   formatCurrency(value: number): string {

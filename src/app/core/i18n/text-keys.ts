@@ -9,6 +9,9 @@ export const TEXT_KEYS = {
     languageEnglish: 'app.languageEnglish',
     footerDisclaimer: 'app.footerDisclaimer',
   },
+  common: {
+    continue: 'common.continue',
+  },
   search: {
     eyebrow: 'search.eyebrow',
     title: 'search.title',
@@ -57,6 +60,16 @@ export const TEXT_KEYS = {
     infants: 'flights.infants',
     editSearch: 'flights.editSearch',
     to: 'flights.to',
+    currentSearchAria: 'flights.currentSearchAria',
+    date: 'flights.date',
+    modify: 'flights.modify',
+    journeySummaryTitle: 'flights.journeySummaryTitle',
+    availableFlightsAria: 'flights.availableFlightsAria',
+    outboundTitle: 'flights.outboundTitle',
+    returnTitle: 'flights.returnTitle',
+    passengerSingular: 'flights.passengerSingular',
+    passengerPlural: 'flights.passengerPlural',
+    totalLabel: 'flights.totalLabel',
   },
   flow: {
     step: 'flow.step',
@@ -67,7 +80,6 @@ export const TEXT_KEYS = {
       title: 'passengers.page.title',
       travelersTitle: 'passengers.page.travelersTitle',
       travelersDescription: 'passengers.page.travelersDescription',
-      continue: 'passengers.page.continue',
       totalLabel: 'passengers.page.totalLabel',
       fallbackPassenger: 'passengers.page.fallbackPassenger',
       adult: 'passengers.page.adult',
@@ -104,7 +116,6 @@ export const TEXT_KEYS = {
       optionsDescription: 'services.page.optionsDescription',
       summaryTitle: 'services.page.summaryTitle',
       emptySummary: 'services.page.emptySummary',
-      continue: 'services.page.continue',
       totalLabel: 'services.page.totalLabel',
     },
     options: {

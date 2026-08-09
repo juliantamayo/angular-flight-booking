@@ -120,12 +120,15 @@ summary:focus-visible {
 }
 
 .search-form__swap-button {
+  align-items: center;
   align-self: center;
   background: var(--color-ink);
   border-radius: var(--radius-sm);
   color: var(--color-surface);
+  display: inline-flex;
   font-size: 1.25rem;
   height: 2.25rem;
+  justify-content: center;
   margin-inline: var(--space-1);
   width: 2.25rem;
 }

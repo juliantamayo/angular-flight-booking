@@ -20,6 +20,7 @@ import { startWith } from 'rxjs';
 
 import { I18nService } from '../../../../core/i18n/i18n.service';
 import { TEXT_KEYS } from '../../../../core/i18n/text-keys';
+import { AppIcon } from '../../../../shared/components/app-icon/app-icon.component';
 import { AIRPORTS } from '../../data/airports.data';
 import { FlightSearch } from '../../models/flight-search.model';
 import {
@@ -30,7 +31,7 @@ import {
 
 @Component({
   selector: 'search-form',
-  imports: [DsButton, ReactiveFormsModule],
+  imports: [AppIcon, DsButton, ReactiveFormsModule],
   templateUrl: './search-form.component.html',
   styleUrl: './styles/search-form.styles.scss',
 })

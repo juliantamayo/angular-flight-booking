@@ -36,7 +36,7 @@ export class PassengerFormPage {
     passengers: this.formBuilder.array(this.passengerLabels.map((label) => this.createPassengerGroup(label.type))),
   });
   readonly bottomSummaryConfig = computed<DsBottomSummaryConfig>(() => ({
-    actionLabel: this.i18n.translate(this.textKeys.passengers.page.continue),
+    actionLabel: this.i18n.translate(this.textKeys.common.continue),
     total: this.formatCurrency(this.selectedFare()?.price ?? 0),
     totalLabel: this.i18n.translate(this.textKeys.passengers.page.totalLabel),
   }));

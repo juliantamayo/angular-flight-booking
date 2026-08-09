@@ -1,0 +1,12 @@
+:host {
+  display: inline-flex;
+  line-height: 0;
+  --app-icon-size: 1.25rem;
+}
+
+.app-icon {
+  block-size: var(--app-icon-size);
+  display: block;
+  flex: 0 0 auto;
+  inline-size: var(--app-icon-size);
+}

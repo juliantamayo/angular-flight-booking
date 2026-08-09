@@ -2,6 +2,8 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { DsBottomSummary, DsBottomSummaryConfig } from '@skybooking/design-system';
 
+import { I18nService } from '../../../../core/i18n/i18n.service';
+import { TEXT_KEYS } from '../../../../core/i18n/text-keys';
 import { SeatColumn, SelectedSeat } from '../../../../core/models/booking-flow.model';
 import { BookingStore } from '../../../../core/state/booking.store';
 import { BookingStepIndicator } from '../../../../shared/components/booking-step-indicator/booking-step-indicator.component';
@@ -23,8 +25,10 @@ interface SeatOption {
   styleUrl: './styles/seats-page.styles.scss',
 })
 export class SeatsPage {
+  protected readonly i18n = inject(I18nService);
   private readonly router = inject(Router);
   private readonly store = inject(BookingStore);
+  protected readonly textKeys = TEXT_KEYS;
   private readonly occupiedSeatLabels = new Set(['1A', '1D', '1F', '2B', '2E', '4A', '4B', '4C', '6D', '8F']);
 
   readonly columns: readonly SeatColumn[] = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -57,7 +61,7 @@ export class SeatsPage {
   );
   readonly reservationTotal = computed(() => (this.selectedFare()?.price ?? 0) + this.seatsTotal());
   readonly bottomSummaryConfig = computed<DsBottomSummaryConfig>(() => ({
-    actionLabel: 'Continuar',
+    actionLabel: this.i18n.translate(this.textKeys.common.continue),
     summaryAriaLabel: 'Ver resumen de compra',
     summarySections: [
       {

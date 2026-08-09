@@ -5,9 +5,9 @@
   @if (search(); as currentSearch) {
     <header class="results-page__modify-header">
       <div class="results-page__modify-bar">
-        <dl class="results-page__modify-summary" aria-label="Busqueda actual">
+        <dl class="results-page__modify-summary" [attr.aria-label]="i18n.translate(textKeys.flights.currentSearchAria)">
           <div class="results-page__modify-summary-item">
-            <dt>Ruta</dt>
+            <dt>{{ i18n.translate(textKeys.flights.route) }}</dt>
             <dd>
               {{ currentSearch.origin }}
               <span aria-hidden="true">&harr;</span>
@@ -15,11 +15,11 @@
             </dd>
           </div>
           <div class="results-page__modify-summary-item">
-            <dt>Fecha</dt>
+            <dt>{{ i18n.translate(textKeys.flights.date) }}</dt>
             <dd>{{ dateSummary(currentSearch) }}</dd>
           </div>
           <div class="results-page__modify-summary-item">
-            <dt>Pasajeros</dt>
+            <dt>{{ i18n.translate(textKeys.flights.passengers) }}</dt>
             <dd>{{ passengerSummary() }}</dd>
           </div>
         </dl>
@@ -32,7 +32,7 @@
           (click)="toggleModify()"
         >
           <span aria-hidden="true">&#9998;</span>
-          Modificar
+          {{ i18n.translate(textKeys.flights.modify) }}
         </button>
       </div>
 
@@ -48,7 +48,7 @@
 
     @if (outboundSelection(); as selectedOutbound) {
       <section class="results-page__journey-summary" aria-labelledby="journey-summary-title">
-        <h1 id="journey-summary-title">Resumen de viaje</h1>
+        <h1 id="journey-summary-title">{{ i18n.translate(textKeys.flights.journeySummaryTitle) }}</h1>
 
         <selected-flight-summary
           [segmentTitle]="segmentTitle(currentSearch, 'outbound')"
@@ -96,7 +96,7 @@
         </div>
       </div>
 
-      <div class="results-page__flight-list" aria-label="Vuelos disponibles">
+      <div class="results-page__flight-list" [attr.aria-label]="i18n.translate(textKeys.flights.availableFlightsAria)">
         @for (flight of flights; track flight.id) {
           <flight-card
             [flight]="flight"

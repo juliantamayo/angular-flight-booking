@@ -68,7 +68,7 @@ export class ServicesPage {
       (this.selectedFare()?.price ?? 0) + (this.selectedSeats()?.total ?? 0) + this.servicesTotal(),
   );
   readonly bottomSummaryConfig = computed<DsBottomSummaryConfig>(() => ({
-    actionLabel: this.i18n.translate(this.textKeys.services.page.continue),
+    actionLabel: this.i18n.translate(this.textKeys.common.continue),
     summaryAriaLabel: this.i18n.translate(this.textKeys.services.summary.ariaLabel),
     summarySections: [
       {
